@@ -1,0 +1,62 @@
+{
+  "rules": [
+    {
+      "action": {
+        "type": "expire"
+      },
+      "description": "Remove untagged images",
+      "rulePriority": 10,
+      "selection": {
+        "countNumber": 1,
+        "countType": "sinceImagePushed",
+        "countUnit": "days",
+        "tagStatus": "untagged"
+      }
+    },
+    {
+      "action": {
+        "type": "expire"
+      },
+      "description": "Keep 15 days of branch builds",
+      "rulePriority": 20,
+      "selection": {
+        "countNumber": 15,
+        "countType": "sinceImagePushed",
+        "countUnit": "days",
+        "tagPrefixList": [
+          "branch-"
+        ],
+        "tagStatus": "tagged"
+      }
+    },
+    {
+      "action": {
+        "type": "expire"
+      },
+      "description": "Keep 90 days of master builds",
+      "rulePriority": 30,
+      "selection": {
+        "countNumber": 90,
+        "countType": "sinceImagePushed",
+        "countUnit": "days",
+        "tagPrefixList": [
+          "master-"
+        ],
+        "tagStatus": "tagged"
+      }
+    },
+    {
+      "action": {
+        "type": "expire"
+      },
+      "description": "Remove anything else over 90 days old",
+      "rulePriority": 40,
+      "selection": {
+        "countNumber": 90,
+        "countType": "sinceImagePushed",
+        "countUnit": "days",
+        "tagStatus": "any"
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+#   Wraps command in aws-vault.
+#
+#   Expects the command you want to run is symlinked to this file.
+#
+set -eu -o pipefail
+
+cmd=$(basename "$0")
+if [[ $cmd = aws-vault-wrapper ]]; then
+    echo "This wrapper should not be called directly."
+    exit 1
+fi
+
+# for convenience, don't wrap commands which run without AWS
+[[ $cmd = terraform && $1 = fmt ]] && AWS_VAULT_WRAPPER_DISABLE=true
+
+# remove the dir this script and symlinks are in so we find the real executable
+my_bin_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PATH=${PATH//$my_bin_dir:}
+
+# set the debug flag
+debug_flag=""
+[[ -n ${AWS_VAULT_DEBUG:-} ]] && debug_flag="--debug"
+
+# check if we've been invoked by aws-vault or if it should be disabled
+if [[ -n ${AWS_VAULT:-} || -n ${AWS_VAULT_WRAPPER_DISABLE:-} ]]; then
+    exec "$cmd" "$@"  # run without aws-vault
+else
+    exec aws-vault $debug_flag exec "$AWS_PROFILE" -- "$cmd" "$@"
+fi
