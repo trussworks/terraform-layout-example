@@ -24,9 +24,11 @@ The `modules` directory contains modules that are reusable across accounts. When
 
 For each AWS account, we create a directory with the name of the account alias.
 
-### bootstrap
+### bootstrap (optional)
 
-Inside each account directory there is typically a `bootstrap` directory. This is populated directly from our [terraform-aws-bootstrap](https://github.com/trussworks/terraform-aws-bootstrap) repository. It's used to create the resources needed to use Terraform with remote state and locking. This is the only directory where `terraform.tfstate` files lives and is synchronized through git. Nothing besides these bootstrapped resources should be in here.
+Inside each account directory there may be a `bootstrap` directory. This is needed if the AWS account didn't already have a Terraform state bucket and locking table in place. E.g., a newly created account or an account that has never been managed with Terraform.
+
+We populate this directly from our [terraform-aws-bootstrap](https://github.com/trussworks/terraform-aws-bootstrap) repository. It's used to create the resources needed to use Terraform with remote state and locking. This is the only directory where a `terraform.tfstate` file may live and be synchronized via git. Nothing besides these bootstrapped resources should be in here.
 
 ### stack environments
 
