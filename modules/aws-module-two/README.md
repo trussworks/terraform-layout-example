@@ -22,7 +22,7 @@ module "ecr_ecs_myapp" {
 |------|-------------|:----:|:-----:|:-----:|
 | lifecycle\_policy | ECR repository lifecycle policy document. Used to override our default policy. | string | `""` | no |
 | name | ECR repository name. | string | n/a | yes |
-| tags | Additional tags to apply. | map | `<map>` | no |
+| tags | Additional tags to apply. | map | `{}` | no |
 
 ## Outputs
 

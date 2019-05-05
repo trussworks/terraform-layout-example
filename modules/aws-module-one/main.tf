@@ -1,9 +1,28 @@
+/**
+ * Creates a VPC in two availability zones (AZs) and locks down the default
+ * Security Group automatically created by AWS.
+ *
+ * ## Usage
+ *
+ * ```hcl
+ * module "app_vpc" {
+ *   source = "../../modules/aws-app-vpc"
+ *
+ *   region             = "${var.region}"
+ *   name               = "${var.name}"
+ *   environment        = "${var.environment}"
+ *   cidr_slash16       = "10.42"
+ *   single_nat_gateway = true
+ * }
+ * ```
+ */
+
 #
 # VPC
 #
 
 locals {
-  vpc_name = "example-${var.environment}"
+  vpc_name = "${var.name}-${var.environment}"
   vpc_cidr = "${var.cidr_slash16}.0.0/16"
 }
 
