@@ -16,7 +16,7 @@
 The following files are expected to be found:
 
 * `README.md` — Should contain, at the very least, a configuration guide for accessing the necessary cloud services. For example, instructions on using `aws-vault` to configure your AWS credentials.
-* `.envrc` — Global settings such as `AWS_VAULT_KEYCHAIN_NAME` and/or `CHAMBER_KMS_KEY_ALIAS`. See the [example .envrc file](.envrc).
+* `.envrc` — Global settings across accounts. E.g., `AWS_VAULT_KEYCHAIN_NAME`, `CHAMBER_KMS_KEY_ALIAS`. See the [example .envrc file](.envrc).
 
 ## bin
 
@@ -35,9 +35,9 @@ Additional tools and scripts needed for managing the infrastructure also go here
 
 ## modules
 
-We've open sourced a good deal of our modules and put them in the [Terraform Module Registry](https://registry.terraform.io/modules/trussworks). In general, use those instead of maintaining a local copy.
+We've open sourced a good deal of our modules and [registered them with the Terraform Module Registry](https://registry.terraform.io/modules/trussworks). In general, use modules from the registry instead of maintaining a local copy.
 
-For new modules under development or modules specific to a project (i.e., wouldn't be useful outside of the project), place them in the top-level modules directory. They should be written to be reusable across accounts.
+For new modules under development or modules specific to a project (i.e., they couldn't be useful outside of the project), place them in this top-level modules directory. They should be written to be reusable across accounts and environments.
 
 ## aws account aliases
 
