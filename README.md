@@ -1,8 +1,7 @@
 # terraform-layout-example
 
-This is the basic approach Truss takes towards Terraform layout.
-
-```
+```text
+.
 ├── bin
 ├── modules
 └── <aws-account-alias>
@@ -12,35 +11,75 @@ This is the basic approach Truss takes towards Terraform layout.
     └── <stack>-<environment>
 ```
 
+## top-level
+
+The following files are expected to be found:
+
+* `README.md` — Should contain, at the very least, a configuration guide for accessing the necessary cloud services. For example, instructions on using `aws-vault` to configure your AWS credentials.
+* `.envrc` — Global settings such as `AWS_VAULT_KEYCHAIN_NAME` and/or `CHAMBER_KMS_KEY_ALIAS`. See the [example .envrc file](.envrc).
+
 ## bin
+
+```text
+bin
+├── aws -> aws-vault-wrapper
+├── aws-vault-wrapper
+├── chamber -> aws-vault-wrapper
+├── packer -> aws-vault-wrapper
+└── terraform -> aws-vault-wrapper
+```
 
 The `bin` directory typically contains an `aws-vault-wrapper` script with symlinks for things like `aws`, `chamber`, `packer`, `terraform`, etc. depending on the project's needs.
 
+Additional tools and scripts needed for managing the infrastructure also go here.
+
 ## modules
 
-The `modules` directory contains modules that are reusable across accounts. When appropriate, we'll open source the modules, move it to it's own repo, put it in the [Terraform Module Registry](http://registry.terraform.io/), and use it from there.
+We've open sourced a good deal of our modules and put them in the [Terraform Module Registry](https://registry.terraform.io/modules/trussworks). In general, use those instead of maintaining a local copy.
+
+For new modules under development or modules specific to a project (i.e., wouldn't be useful outside of the project), place them in the top-level modules directory. They should be written to be reusable across accounts.
 
 ## aws account aliases
 
 For each AWS account, we create a directory with the name of the account alias.
 
+The following files are expected to be found:
+
+* `.envrc` — Account specific settings such as `AWS_PROFILE`. See the [example .envrc file](aws-account-alias-one/.envrc).
+
 ### bootstrap (optional)
 
-Inside each account directory there may be a `bootstrap` directory. This is needed if the AWS account didn't already have a Terraform state bucket and locking table in place. E.g., a newly created account or an account that has never been managed with Terraform.
+Inside each account directory there _may_ be a `bootstrap` directory. This is only needed if the AWS account doesn't already have a Terraform state bucket and locking table in place. E.g., a newly created account or an account that has never been managed with Terraform.
 
 We populate this directly from our [terraform-aws-bootstrap](https://github.com/trussworks/terraform-aws-bootstrap) repository. It's used to create the resources needed to use Terraform with remote state and locking. This is the only directory where a `terraform.tfstate` file may live and be synchronized via git. Nothing besides these bootstrapped resources should be in here.
 
 ### stack environments
 
-This is where the meat of the matter is. For each stack and environment we create a directory with the name of the stack or purpose and environment. There are a few special names that get used here.
+```text
+<stack>-<environment>
+├── terraform.tf
+├── providers.tf
+├── main.tf
+└── variables.tf
+```
+
+This is where the meat of the matter is. For each stack and environment we create a directory with the name of the stack (or purpose) and environment.
+There are a few special names we use here.
 
 By "stack", we mean a collection of resources around a single purpose. Some examples:
 
-*  "packer" – may hold all the resources for running Packer builds: VPC, Security Groups, IAM roles/policies, etc.
-*  "myapp" - may hold all the resources for running the MyApp web app: VPC, ECS cluster and services, ECR repos, ALB, RDS, etc.
+* "packer" – may hold all the resources for running Packer builds: VPC, Security Groups, IAM roles/policies, etc.
+* "myapp" - may hold all the resources for running the MyApp web app: VPC, ECS cluster and services, ECR repos, ALB, RDS, etc.
 
-For administrative resources we always use the special name "admin". An example of this would be managing IAM users, roles, and policies for engineers.
+For administrative resources we always use the special name "admin". An example of this would be managing IAM users, roles, and policies for engineers and/or external services.
 
 By "environment", we mean names like "prod", "staging", "lab", etc.
 
 For resources that are global across environments we always use the special name "global". An example of this would be an ECR repository that dev, staging, and prod all pull from.
+
+The following files are expected to be found:
+
+* `terraform.tf` — Contains the `terraform {}` configuration block. This will set a minimum `terraform` version and configure the backend.
+* `providers.tf` — Contains the `provider {}` blocks indicating the version of each provider needed.
+* `main.tf` — The infrastructure code. As this file grows, consider breaking it up into smaller, well-named files. For example, a `circleci.tf` file could contain the IAM user, group, and policies needed for a CircleCI build to run.
+* `variables.tf` — This almost always has, at minimum, a `region` variable set.
