@@ -22,7 +22,7 @@ When running `aws-vault`, you may be prompted to enter your keychain (laptop) pa
 
 1. Test the aws-vault configuration works by issuing the following command `aws sts get-caller-identity`. You should get something back like:
 
-    ```
+    ```json
     {
         "UserId": "AIDAJ3D1XAR4KVEJDBVUG",
         "Account": "222222222222",

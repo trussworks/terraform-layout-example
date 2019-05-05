@@ -1,0 +1,30 @@
+repos:
+  - repo: git://github.com/pre-commit/pre-commit-hooks
+    rev: v2.2.1
+    hooks:
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: pretty-format-json
+        args:
+          - --autofix
+      - id: trailing-whitespace
+
+  - repo: git://github.com/igorshubovych/markdownlint-cli
+    rev: v0.15.0
+    hooks:
+      - id: markdownlint
+
+  - repo: git://github.com/detailyang/pre-commit-shell
+    rev: 1.0.4
+    hooks:
+      - id: shell-lint
+
+  - repo: git://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.11.0
+    hooks:
+      - id: terraform_docs
+      - id: terraform_fmt
+      - id: terraform_validate_no_variables
