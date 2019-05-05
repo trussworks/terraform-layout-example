@@ -12,8 +12,12 @@ if [[ $cmd = aws-vault-wrapper ]]; then
     exit 1
 fi
 
-# for convenience, don't wrap commands which run without AWS
-[[ $cmd = terraform && $1 = fmt ]] && AWS_VAULT_WRAPPER_DISABLE=true
+# for convenience, don't wrap commands without arguments (no API calls)
+[[ -z $* ]] && AWS_VAULT_WRAPPER_DISABLE=true
+
+# for convenience, don't wrap specific commands which run without AWS API calls
+[[ $cmd = aws && ${1:-} = configure ]] && AWS_VAULT_WRAPPER_DISABLE=true
+[[ $cmd = terraform && ${1:-} = fmt ]] && AWS_VAULT_WRAPPER_DISABLE=true
 
 # remove the dir this script and symlinks are in so we find the real executable
 my_bin_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
