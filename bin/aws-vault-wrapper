@@ -31,5 +31,5 @@ debug_flag=""
 if [[ -n ${AWS_VAULT:-} || -n ${AWS_VAULT_WRAPPER_DISABLE:-} ]]; then
     exec "$cmd" "$@"  # run without aws-vault
 else
-    exec aws-vault $debug_flag exec "$AWS_PROFILE" -- "$cmd" "$@"
+    exec aws-vault $debug_flag exec --assume-role-ttl=1h "$AWS_PROFILE" -- "$cmd" "$@"
 fi
