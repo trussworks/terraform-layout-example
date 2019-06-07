@@ -53,7 +53,7 @@ locals {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 1.46.0"
+  version = "~> 1.66.0"
 
   name = "${local.vpc_name}"
   cidr = "${local.vpc_cidr}"
@@ -85,8 +85,8 @@ resource "aws_default_security_group" "default" {
   ingress {
     description = "Dummy rule; need one"
 
-    protocol  = 1    # ICMP
-    from_port = 3    # Destination Unreachable
+    protocol  = 1 # ICMP
+    from_port = 3 # Destination Unreachable
     to_port   = 0
     self      = true
   }
