@@ -27,9 +27,13 @@ PATH=${PATH//$my_bin_dir:}
 debug_flag=""
 [[ -n ${AWS_VAULT_DEBUG:-} ]] && debug_flag="--debug"
 
+# set the no-session flag
+no_session_flag=""
+[[ -n ${AWS_VAULT_NO_SESSION:-} ]] && no_session_flag="--no-session"
+
 # check if we've been invoked by aws-vault or if it should be disabled
 if [[ -n ${AWS_VAULT:-} || -n ${AWS_VAULT_WRAPPER_DISABLE:-} ]]; then
     exec "$cmd" "$@"  # run without aws-vault
 else
-    exec aws-vault $debug_flag exec --assume-role-ttl=1h "$AWS_PROFILE" -- "$cmd" "$@"
+    exec aws-vault $debug_flag $no_session_flag exec --assume-role-ttl=1h "$AWS_PROFILE" -- "$cmd" "$@"
 fi
