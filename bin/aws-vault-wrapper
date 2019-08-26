@@ -35,5 +35,5 @@ no_session_flag=""
 if [[ -n ${AWS_VAULT:-} || -n ${AWS_VAULT_WRAPPER_DISABLE:-} ]]; then
     exec "$cmd" "$@"  # run without aws-vault
 else
-    exec aws-vault $debug_flag $no_session_flag exec --assume-role-ttl=1h "$AWS_PROFILE" -- "$cmd" "$@"
+    exec aws-vault $debug_flag exec $no_session_flag --assume-role-ttl=1h "$AWS_PROFILE" -- "$cmd" "$@"
 fi
