@@ -4,6 +4,9 @@
 .
 ├── bin
 ├── modules
+├── aws-account-alias-root
+│   ├── admin-global
+│   └── bootstrap
 └── <aws-account-alias>
     ├── bootstrap
     ├── admin-global
@@ -38,6 +41,10 @@ Additional tools and scripts needed for managing the infrastructure also go here
 We've open sourced a good deal of our modules and [registered them with the Terraform Module Registry](https://registry.terraform.io/modules/trussworks). In general, use modules from the registry instead of maintaining a local copy.
 
 For new modules under development or modules specific to a project (i.e., they couldn't be useful outside of the project), place them in this top-level modules directory. They should be written to be reusable across accounts and environments.
+
+## aws organizations and the root aws account
+
+AWS Organizations provide a native way to manage multiple AWS accounts. They provide consolidated billing, APIs (e.g., via Terraform) for automating account creation, and the ability to apply account-wide IAM like policies. These configurations are manged in the root AWS account. No other AWS resources should be defined in the root account.
 
 ## aws account aliases
 
