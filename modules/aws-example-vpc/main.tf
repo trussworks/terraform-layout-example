@@ -1,29 +1,6 @@
-/**
- * Creates a VPC in two availability zones (AZs) and locks down the default
- * Security Group automatically created by AWS.
- *
- * ## Usage
- *
- * ```hcl
- * module "app_vpc" {
- *   source = "../../modules/aws-app-vpc"
- *
- *   region             = "${var.region}"
- *   name               = "${var.name}"
- *   environment        = "${var.environment}"
- *   cidr_slash16       = "10.42"
- *   single_nat_gateway = true
- * }
- * ```
- */
-
-#
-# VPC
-#
-
 locals {
-  vpc_name = "${var.name}-${var.environment}"
-  vpc_cidr = "${var.cidr_slash16}.0.0/16"
+  vpc_name = format("vpc-%s", var.environment)
+  vpc_cidr = format("%s.0.0/16", var.cidr_slash16)
 }
 
 # Region
@@ -51,34 +28,60 @@ locals {
 #     112.0/20 - [spare]
 #
 
+# By default, the VPC module creates EIPs for the NAT gateways that it
+# will use ephemerally; so if we make changes to the VPC, it can tear
+# down those EIPs and recreate them, changing the EIPs. However, we can
+# create those separately and then pass them to the VPC module instead,
+# and then changes to the VPC will not affect the NAT gateways.
+#
+# Why do this? Some clients will be interfacing with external partners
+# that need to whitelist things by IP; if this is getting changed, we
+# have to jump through hoops with these partners to update their
+# firewalls. Creating these EIPs separately saves us from needing to
+# do this.
+
+resource "aws_eip" "nat" {
+  count = 2
+  vpc   = true
+
+  tags = {
+    Name        = format("nat-%s-%d", var.environment, count.index + 1)
+    Environment = var.environment
+    Automation  = "Terraform"
+  }
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 1.66.0"
+  version = "~> 2.33.0"
 
-  name = "${local.vpc_name}"
-  cidr = "${local.vpc_cidr}"
+  name = local.vpc_name
+  cidr = local.vpc_cidr
 
-  azs             = ["${var.region}a", "${var.region}b"]
+  azs             = formatlist(format("%s%%s", var.region), ["a", "b", "c"])
   private_subnets = ["${cidrsubnet(local.vpc_cidr, 3, 0)}", "${cidrsubnet(local.vpc_cidr, 3, 2)}"]
   public_subnets  = ["${cidrsubnet(local.vpc_cidr, 4, 2)}", "${cidrsubnet(local.vpc_cidr, 4, 6)}"]
 
   enable_nat_gateway = true
-  single_nat_gateway = "${var.single_nat_gateway}"
+  single_nat_gateway = false
+  reuse_nat_ips      = true
+  external_nat_ips   = aws_eip.nat.*.id
+
   enable_s3_endpoint = true
 
-  # required when using private hosted zones
-  enable_dns_hostnames = true
-  enable_dns_support   = true
-
   tags = {
-    Environment = "${var.environment}"
+    Environment = var.environment
     Automation  = "Terraform"
   }
 }
 
 # Remove the permissiveness of the default SG that's created by AWS.
 resource "aws_default_security_group" "default" {
-  vpc_id = "${module.vpc.vpc_id}"
+  vpc_id = module.vpc.vpc_id
 
   # We have to specify at least one rule, otherwise the default rules will
   # remain. We use ICMP Destination Unrechable as the dummy entry.
@@ -92,7 +95,7 @@ resource "aws_default_security_group" "default" {
   }
 
   tags = {
-    Environment = "${var.environment}"
+    Environment = var.environment
     Automation  = "Terraform"
   }
 }
