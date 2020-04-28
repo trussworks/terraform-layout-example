@@ -16,6 +16,24 @@ module "logs" {
 }
 
 #
+# Config
+#
+
+module "config" {
+  source  = "trussworks/config/aws"
+  version = "~> 2.5"
+
+  config_name        = format("%s-config-%s", data.aws_iam_account_alias.current.account_alias, var.region)
+  config_logs_bucket = module.logs.aws_logs_bucket
+
+  aggregate_organization = true
+
+  check_cloud_trail_encryption          = true
+  check_cloud_trail_log_file_validation = true
+  check_multi_region_cloud_trail        = true
+}
+
+#
 # GuardDuty
 #
 

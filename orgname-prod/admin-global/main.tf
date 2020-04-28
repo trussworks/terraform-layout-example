@@ -1,22 +1,82 @@
-locals {
-  region                = "us-west-2"
-  aws_logs_bucket_alias = "aws-account-alias-two-logs"
-}
+data "aws_iam_account_alias" "current" {}
 
 #
-# ECS Service-Linked Role
+# Logs
 #
-resource "aws_iam_service_linked_role" "main" {
-  aws_service_name = "ecs.amazonaws.com"
-}
 
-#
-# AWS logging buckets
-#
 module "logs" {
   source  = "trussworks/logs/aws"
-  version = "~>2.0.0"
+  version = "~> 8.0.0"
 
-  region         = "${local.region}"
-  s3_bucket_name = "${local.aws_logs_bucket_alias}-${local.region}"
+  default_allow = false
+  allow_config  = true
+
+  allow_alb     = true
+
+  region         = var.region
+  s3_bucket_name = var.logging_bucket
+}
+
+#
+# Config
+#
+
+module "config" {
+  source  = "trussworks/config/aws"
+  version = "~> 2.5"
+
+  config_name        = format("%s-config-%s", data.aws_iam_account_alias.current.account_alias, var.region)
+  config_logs_bucket = module.logs.aws_logs_bucket
+
+  aggregate_organization = true
+
+  check_cloud_trail_encryption          = true
+  check_cloud_trail_log_file_validation = true
+  check_multi_region_cloud_trail        = true
+}
+
+#
+# GuardDuty
+#
+
+resource "aws_guardduty_detector" "member" {
+  enable = true
+}
+
+resource "aws_guardduty_invite_accepter" "member" {
+  detector_id       = aws_guardduty_detector.member.id
+  master_account_id = var.account_id_org_root
+}
+
+# These modules allow groups from the id account to assume roles in this
+# account to give them privileges.
+
+module "infra_role" {
+  source  = "trussworks/iam-cross-acct-dest/aws"
+  version = "1.0.3"
+
+  iam_role_name             = "infra"
+  source_account_id         = var.account_id_id
+}
+
+module "engineer_role" {
+  source  = "trussworks/iam-cross-acct-dest/aws"
+  version = "1.0.3"
+
+  iam_role_name             = "engineer"
+  source_account_id         = var.account_id_id
+}
+
+# This is the prod account, so we need to be more restrictive with the
+# permissions we give folks. Infra engineers will have power user access,
+# but application engineers are only allowed to look at logs.
+
+resource "aws_iam_role_policy_attachment" "infra_policy_attachment" {
+  role       = module.infra_role.name
+  policy_arn = "arn:aws:iam::aws:policy/PowerUserAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "engineer_policy_attachment" {
+  role       = module.engineer_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsReadOnlyAccess"
 }
