@@ -38,10 +38,22 @@ variable "db_allocated_storage" {
   default     = 20
 }
 
+variable "db_backup_retention" {
+  description = "RDS backup retention (in days)"
+  type        = number
+  default     = 7
+}
+
 variable "db_instance_class" {
   description = "Instance class for RDS instance"
   type        = string
   default     = "db.t3.small"
+}
+
+variable "db_multi_az" {
+  description = "Multi AZ setting for RDS"
+  type        = bool
+  default     = false
 }
 
 variable "db_name" {
@@ -95,13 +107,13 @@ variable "final_snapshot_identifier" {
 variable "pg_family" {
   description = "DB parameter family for RDS instance"
   type        = string
-  default     = "postgres11"
+  default     = "postgres12"
 }
 
 variable "pg_version" {
   description = "PostgreSQL version for the RDS instance"
   type        = string
-  default     = "11.5"
+  default     = "12.2"
 }
 
 variable "tasks_desired_count" {

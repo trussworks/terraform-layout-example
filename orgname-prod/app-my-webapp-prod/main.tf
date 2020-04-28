@@ -41,6 +41,11 @@ module "my_webapp_prod" {
   alb_logs_bucket = var.logging_bucket
   alb_subnets     = module.prod_vpc.public_subnets
 
+  # Because this is prod, we're going to increase the backup retention
+  # over the default and turn on multi_az, which will give us additonal
+  # redundancy.
+  db_backup_retention  = 35
+  db_multi_az          = true
   db_subnet_group_name = module.prod_vpc.vpc_name
   db_subnets           = module.prod_vpc.database_subnets
 

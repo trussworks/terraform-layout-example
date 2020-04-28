@@ -26,4 +26,5 @@ module "app_my_webapp_dev" {
 }
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+Error: Failed to read module directory: Module directory /var/folders/cv/5g741k8d2n53nt2c9rb7228w0000gn/T//terraform-docs-8mQesLQWmF.tf does not exist or cannot be read.
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

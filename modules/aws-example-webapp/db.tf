@@ -1,6 +1,8 @@
 # This file has configuration components for an RDS database instance
 # for our sample webapp. We've separated them into this file to make it
-# a little more clear how these components work.
+# a little more clear how these components work. This example *is*
+# PostgreSQL specific, but you can use a similar pattern with other
+# RDS database types.
 
 # It's pretty common for us to use T2 or T3 instances to run our RDS
 # instances on; these are burstable CPU type instances which are
@@ -127,7 +129,7 @@ module "my_webapp_db" {
   instance_class    = var.db_instance_class
   allocated_storage = var.db_allocated_storage
   storage_encrypted = true
-  multi_az          = false
+  multi_az          = var.db_multi_az
 
   # You may be asking why we're referring to the SSM parameters here
   # rather than the module parameters that those are derived from. This
@@ -155,7 +157,7 @@ module "my_webapp_db" {
   maintenance_window = "Sun:06:00-Sun:09:00"
   backup_window      = "09:00-12:00"
 
-  backup_retention_period = 30 # days
+  backup_retention_period = var.db_backup_retention
 
   tags = {
     Automation  = "Terraform"

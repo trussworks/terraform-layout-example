@@ -19,18 +19,5 @@ module "ecr_ecs_myapp" {
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-## Inputs
-
-| Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| lifecycle\_policy | ECR repository lifecycle policy document. Used to override our default policy. | string | `""` | no |
-| name | ECR repository name. | string | n/a | yes |
-| tags | Additional tags to apply. | map | `{}` | no |
-
-## Outputs
-
-| Name | Description |
-|------|-------------|
-| arn | Full ARN of the repository. |
-
+Error: Failed to read module directory: Module directory /var/folders/cv/5g741k8d2n53nt2c9rb7228w0000gn/T//terraform-docs-1fdHRBb3fE.tf does not exist or cannot be read.
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
