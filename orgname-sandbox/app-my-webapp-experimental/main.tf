@@ -72,7 +72,7 @@ data "aws_subnet_ids" "database_2" {
 # Now we call our module to deploy a stack of the my-webapp application.
 # Most of these we just use the defaults, so we're just adding the ones
 # that are required.
-module "my_webapp_dev" {
+module "my_webapp_experimental" {
   source = "../../modules/aws-example-webapp"
 
   alb_logs_bucket = var.logging_bucket
@@ -82,7 +82,7 @@ module "my_webapp_dev" {
   db_subnets           = flatten([data.aws_subnet_ids.database_1.ids, data.aws_subnet_ids.database_2.ids])
 
   dns_zone_id = data.aws_route53_zone.sandbox.zone_id
-  domain_name = "my-webapp.dev.sandbox.example.com"
+  domain_name = "my-webapp.experimental.sandbox.example.com"
 
   ecs_subnets = flatten([data.aws_subnet_ids.private_1.ids, data.aws_subnet_ids.private_2.ids])
   environment = var.environment

@@ -1,7 +1,7 @@
 variable "environment" {
   description = "Environment"
   type        = string
-  default     = "dev"
+  default     = "experimental"
 }
 
 variable "logging_bucket" {
