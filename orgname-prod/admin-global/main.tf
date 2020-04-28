@@ -76,6 +76,10 @@ resource "aws_iam_role_policy_attachment" "infra_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/PowerUserAccess"
 }
 
+# This is still probably *too* permissive, since it grants access to
+# *all* Cloudwatch logs; optimally, we'd give engineers a more specific
+# policy that only covers the application logs. For demonstration purposes
+# though, this is good enough.
 resource "aws_iam_role_policy_attachment" "engineer_policy_attachment" {
   role       = module.engineer_role.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsReadOnlyAccess"

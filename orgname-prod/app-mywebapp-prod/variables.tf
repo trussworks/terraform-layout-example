@@ -2,13 +2,20 @@ variable "environment" {
   type = "string"
 }
 
-variable "cidr_slash16" {
-  description = "First 2 octects of the /16 CIDR to use for the VPC."
-  type        = "string"
+variable "logging_bucket" {
+  description = "S3 bucket for AWS logging"
+  type        = string
+  default     = "orgname-prod-aws-logs"
 }
 
-variable "single_nat_gateway" {
-  default     = false
-  description = "Whether to provision a single shared NAT Gateway across all the private networks."
-  type        = "string"
+variable "region" {
+  description = "AWS Region"
+  type        = string
+  default     = "us-west-2"
+}
+
+variable "zone_name" {
+  description = "DNS zone name"
+  type        = string
+  default     = "prod.example.com."
 }

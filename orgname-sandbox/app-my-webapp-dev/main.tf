@@ -8,13 +8,19 @@ data "aws_route53_zone" "sandbox" {
   name = var.zone_name
 }
 
+# For the cidr_slash16 here, we're using the 10.0.0.0/8 network bloc;
+# this is a non-internet routable network bloc, so we can use it on
+# our internal network safely, and since it's a /8 we can make lots of
+# /16s inside it (256 to be exact), so it's a good one to use. You can
+# read about these network address spaces here:
+# https://en.wikipedia.org/wiki/Private_network
 module "dev_vpc" {
   source = "../../modules/aws-example-vpc"
 
   region      = var.region
   environment = var.environment
 
-  cidr_slash16 = "192.168"
+  cidr_slash16 = "10.0"
 }
 
 module "app_my_webapp_dev_ecr" {
