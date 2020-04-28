@@ -10,8 +10,8 @@ module "logs" {
 
   default_allow = false
   allow_config  = true
-  
-  allow_alb     = true
+
+  allow_alb = true
 
   region         = var.region
   s3_bucket_name = var.logging_bucket
@@ -55,16 +55,16 @@ module "infra_role" {
   source  = "trussworks/iam-cross-acct-dest/aws"
   version = "1.0.3"
 
-  iam_role_name             = "infra"
-  source_account_id         = var.account_id_id
+  iam_role_name     = "infra"
+  source_account_id = var.account_id_id
 }
 
 module "engineer_role" {
   source  = "trussworks/iam-cross-acct-dest/aws"
   version = "1.0.3"
 
-  iam_role_name             = "engineer"
-  source_account_id         = var.account_id_id
+  iam_role_name     = "engineer"
+  source_account_id = var.account_id_id
 }
 
 # Because this is the sandbox account, we're going to give both infra and

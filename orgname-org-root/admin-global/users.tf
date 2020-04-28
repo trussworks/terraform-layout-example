@@ -10,7 +10,7 @@ module "iam_enforce_mfa" {
 
 #
 # Admin User/Group Setup
-# 
+#
 
 resource "aws_iam_user" "admins" {
   for_each      = toset(local.admin_users)

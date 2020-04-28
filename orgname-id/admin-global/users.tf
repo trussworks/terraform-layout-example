@@ -55,31 +55,31 @@ resource "aws_iam_user" "infra_users" {
     Automation = "Terraform"
   }
 }
- 
+
 resource "aws_iam_user" "billing_users" {
   for_each      = toset(local.billing_users)
   name          = each.value
   force_destroy = true
-    
+
   tags = {
     Automation = "Terraform"
   }
 }
-  
+
 resource "aws_iam_user" "engineer_users" {
   for_each      = toset(local.engineer_users)
   name          = each.value
   force_destroy = true
-    
+
   tags = {
     Automation = "Terraform"
   }
 }
-  
+
 module "infra_group" {
   source  = "trussworks/iam-user-group/aws"
   version = "1.0.2"
-  
+
   user_list     = local.infra_users
   allowed_roles = [module.infra_group_role.arn]
   group_name    = "infra"

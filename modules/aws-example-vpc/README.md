@@ -1,21 +1,20 @@
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-Creates a VPC in two availability zones (AZs) and locks down the default
-Security Group automatically created by AWS.
+Creates a VPC with two availability zones, two static EIPs for attaching
+to the NAT gateways, and overrides the default security group with a dummy
+rule that blocks all access.
 
 ## Usage
 
 ```hcl
 module "app_vpc" {
-  source = "../../modules/aws-app-vpc"
+  source = "../../modules/aws-example-vpc"
 
-  region             = "${var.region}"
-  name               = "${var.name}"
-  environment        = "${var.environment}"
+  region             = var.region
+  environment        = var.environment
   cidr_slash16       = "10.42"
-  single_nat_gateway = true
 }
 ```
 
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |

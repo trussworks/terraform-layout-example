@@ -40,7 +40,7 @@ module "my_webapp_dev" {
 
   dns_zone_id = data.aws_route53_zone.sandbox.zone_id
   domain_name = "my-webapp.dev.sandbox.example.com"
-  
+
   ecs_subnets = module.dev_vpc.private_subnets
   environment = var.environment
 

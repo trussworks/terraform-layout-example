@@ -69,7 +69,7 @@ resource "aws_organizations_account" "orgname-infra" {
   name      = format("%s-infra", var.org_name)
   email     = format("%s+infra@%s", var.org_email_alias, var.org_email_domain)
   parent_id = aws_organizations_organizational_unit.main.id
- 
+
   iam_user_access_to_billing = "DENY"
 
   tags = {

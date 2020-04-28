@@ -53,8 +53,8 @@ module "infra_role" {
   source  = "trussworks/iam-cross-acct-dest/aws"
   version = "1.0.3"
 
-  iam_role_name             = "infra"
-  source_account_id         = var.account_id_id
+  iam_role_name     = "infra"
+  source_account_id = var.account_id_id
 }
 
 resource "aws_iam_role_policy_attachment" "infra_role_policy" {

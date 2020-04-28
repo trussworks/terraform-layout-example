@@ -10,9 +10,9 @@ module "logs" {
   source  = "trussworks/logs/aws"
   version = "8.0.0"
 
-  default_allow       = false
+  default_allow = false
 
-  allow_cloudtrail    = true
+  allow_cloudtrail = true
   cloudtrail_accounts = concat(
     [
       aws_organizations_organization.main.id,
@@ -21,8 +21,8 @@ module "logs" {
     aws_organizations_organization.main.accounts[*].id
   )
 
-  region              = var.region
-  s3_bucket_name      = var.logging_bucket
+  region         = var.region
+  s3_bucket_name = var.logging_bucket
 }
 
 #
@@ -58,7 +58,7 @@ module "config" {
   # default, none of the subsidiary account root passwords are even set,
   # so no one can log in to them without jumping through the password
   # recovery hoops.
-  check_root_account_mfa_enabled        = true
+  check_root_account_mfa_enabled = true
 }
 
 #

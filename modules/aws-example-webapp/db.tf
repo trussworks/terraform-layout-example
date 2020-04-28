@@ -12,7 +12,7 @@
 # these variables here: https://aws.amazon.com/rds/instance-types/
 
 locals {
-  cpu_credits_max = { 
+  cpu_credits_max = {
     "db.t2.small"   = 288
     "db.t2.medium"  = 576
     "db.t2.large"   = 864
@@ -134,10 +134,10 @@ module "my_webapp_db" {
   # is because we want to pull these parameters from the same place the
   # application is getting them, if for some reason that gets out of
   # sync. This *should* just be the same thing, but just in case...
-  name              = aws_ssm_parameter.database_name.value
-  username          = aws_ssm_parameter.database_user.value
-  password          = data.aws_ssm_parameter.database_password.value
-  port              = 5432
+  name     = aws_ssm_parameter.database_name.value
+  username = aws_ssm_parameter.database_user.value
+  password = data.aws_ssm_parameter.database_password.value
+  port     = 5432
 
   # In order to handle some changes, you will temporarily need to set the
   # apply_immediately parameter to true. Set it back to false after you
