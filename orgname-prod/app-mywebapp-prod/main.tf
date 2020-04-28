@@ -1,12 +1,18 @@
-#
-# VPC
-#
-
 # We need to create a data source to get information about the DNS zone
 # we're using for the webapp module to create DNS entries.
 data "aws_route53_zone" "prod" {
   name = var.zone_name
 }
+
+#
+# VPC
+#
+
+# We are creating the VPC here because there's only one environment in
+# the prod account (and that's really all we want here, since we're in
+# prod). If we were deploying multiple applications in the same account
+# and we wanted them to share a VPC, we would use the global pattern
+# we used in the sandbox account.
 
 # We're going to give the prod VPC a different cidr_slash16 just to keep
 # us from confusing it with the dev deployment. It's worth mentioning
