@@ -97,7 +97,7 @@ The following files are expected to be found:
 ### The bootstrap Directory
 
 When initially creating Terraform infrastructure, we use the
-[terraform-aws-boostrap](https://github.com/trussworks/terraform-aws-bootstrap)
+[terraform-aws-bootstrap](https://github.com/trussworks/terraform-aws-bootstrap)
 repository to create the resources needed to set up remote Terraform
 state and locking via DynamoDB. If this is an organization we started
 from scratch, this directory should exist (and if you are setting up
