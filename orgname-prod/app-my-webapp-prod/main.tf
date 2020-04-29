@@ -27,6 +27,14 @@ module "prod_vpc" {
   environment = var.environment
 
   cidr_slash16 = "10.1"
+
+  # Unlike in the other environments, where we did not override the
+  # module default of using a single NAT gateway for the entire VPC, in
+  # production, we want to have the added security of a NAT gateway per
+  # AZ so that if we lose an AZ, we can still continue to serve traffic.
+  # The overriding reason *not* to do this in the other environments is
+  # the additional cost of more NAT gateways.
+  single_nat_gateway = false
 }
 
 module "app_my_webapp_prod_ecr" {

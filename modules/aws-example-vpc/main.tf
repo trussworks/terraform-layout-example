@@ -41,7 +41,7 @@ locals {
 # do this.
 
 resource "aws_eip" "nat" {
-  count = 2
+  count = var.single_nat_gateway ? 1 : 2
   vpc   = true
 
   tags = {
@@ -67,7 +67,7 @@ module "vpc" {
   public_subnets  = ["${cidrsubnet(local.vpc_cidr, 4, 2)}", "${cidrsubnet(local.vpc_cidr, 4, 6)}"]
 
   enable_nat_gateway = true
-  single_nat_gateway = false
+  single_nat_gateway = var.single_nat_gateway
   reuse_nat_ips      = true
   external_nat_ips   = aws_eip.nat.*.id
 

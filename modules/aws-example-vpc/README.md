@@ -15,5 +15,34 @@ module "app_vpc" {
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-Error: Failed to read module directory: Module directory /var/folders/cv/5g741k8d2n53nt2c9rb7228w0000gn/T//terraform-docs-vGgXSjB7zl.tf does not exist or cannot be read.
+## Requirements
+
+No requirements.
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| aws | n/a |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| cidr\_slash16 | First 2 octects of the /16 CIDR to use for the VPC. | `string` | n/a | yes |
+| environment | Environment name | `string` | n/a | yes |
+| region | AWS region | `string` | n/a | yes |
+| single\_nat\_gateway | Whether to define a single NAT gateway for all AZs | `bool` | `true` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| database\_subnets | List of IDs of DB subnets. |
+| nat\_eips | List of EIPs for NAT gateways. |
+| private\_subnets | List of IDs of private subnets. |
+| public\_subnets | List of IDs of public subnets. |
+| vpc\_id | The ID of the VPC. |
+| vpc\_name | The name of the VPC. |
+
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
