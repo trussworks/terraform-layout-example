@@ -62,7 +62,7 @@ module "vpc" {
   name = local.vpc_name
   cidr = local.vpc_cidr
 
-  azs             = formatlist(format("%s%%s", var.region), ["a", "b", "c"])
+  azs             = formatlist(format("%s%%s", var.region), ["a", "b"])
   private_subnets = ["${cidrsubnet(local.vpc_cidr, 3, 0)}", "${cidrsubnet(local.vpc_cidr, 3, 2)}"]
   public_subnets  = ["${cidrsubnet(local.vpc_cidr, 4, 2)}", "${cidrsubnet(local.vpc_cidr, 4, 6)}"]
 
@@ -84,7 +84,7 @@ resource "aws_default_security_group" "default" {
   vpc_id = module.vpc.vpc_id
 
   # We have to specify at least one rule, otherwise the default rules will
-  # remain. We use ICMP Destination Unrechable as the dummy entry.
+  # remain. We use ICMP Destination Unreachable as the dummy entry.
   ingress {
     description = "Dummy rule; need one"
 
