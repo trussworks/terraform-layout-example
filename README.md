@@ -1,25 +1,48 @@
 # terraform-layout-example
 
+This repository is meant to serve as an example of how Truss builds out
+repositories for Terraform deployments. We've taken care to add as much
+documentation and code comments around *why* we do things the way they
+are outlined here as possible, so that newcomers to these patterns can
+gain some understanding of why we did things this way.
+
+This repository is meant to be a living document -- if we change our
+method of doing things, we should update this repository, and engineers
+who have questions about why we do things that are not adequately
+explained or who have suggestions for improvements should feel free to
+file issues and/or PRs to improve the quality of the repo.
+
 ```text
 .
 ├── bin
 ├── modules
-├── aws-account-alias-root
+├── orgname-org-root
 │   ├── admin-global
 │   └── bootstrap
-└── <aws-account-alias>
-    ├── bootstrap
+└── orgname-id
+│   ├── admin-global
+│   └── bootstrap
+└── orgname-infra
+│   ├── admin-global
+│   └── bootstrap
+|   ├── <infra resource -- eg, atlantis>
+└── orgname-<whatever>
     ├── admin-global
+    └── bootstrap
     ├── <stack>-global
     └── <stack>-<environment>
 ```
 
-## top-level
+## Top-Level
 
 The following files are expected to be found:
 
-* `README.md` — Should contain, at the very least, a configuration guide for accessing the necessary cloud services. For example, instructions on using `aws-vault` to configure your AWS credentials.
-* `.envrc` — Global settings across accounts. E.g., `AWS_VAULT_KEYCHAIN_NAME`, `CHAMBER_KMS_KEY_ALIAS`. See the [example .envrc file](.envrc).
+* `README.md` — Should contain, at the very least, a configuration guide
+  for accessing the necessary cloud services. For example, instructions
+  on using `aws-vault` to configure your AWS credentials.
+* `.envrc` — Global settings across accounts. E.g.,
+  `AWS_VAULT_KEYCHAIN_NAME`, `CHAMBER_KMS_KEY_ALIAS`. See the [example
+  .envrc file](.envrc).
 
 ## bin
 
@@ -32,35 +55,74 @@ bin
 └── terraform -> aws-vault-wrapper
 ```
 
-The `bin` directory typically contains an `aws-vault-wrapper` script with symlinks for things like `aws`, `chamber`, `packer`, `terraform`, etc. depending on the project's needs.
+The `bin` directory typically contains an `aws-vault-wrapper` script with
+symlinks for things like `aws`, `chamber`, `packer`, `terraform`, etc.
+depending on the project's needs.
 
 Additional tools and scripts needed for managing the infrastructure also go here.
 
-## modules
+## Modules
 
-We've open sourced a good deal of our modules and [registered them with the Terraform Module Registry](https://registry.terraform.io/modules/trussworks). In general, use modules from the registry instead of maintaining a local copy.
+In general, we should avoid having modules in the Terraform repository
+proper. We should make every effort to open source modules and add them
+to the [Terraform Registry](https://registry.terraform.io) when we can;
+if the modules are specific to a project, we should put them in another
+repository and use them from there via the Git source method (see
+[GitHub module sources](https://www.terraform.io/docs/modules/sources.html#github)
+in the Terraform docs). See the [Modules directory README](modules/README.md)
+for a more thorough explanation.
 
-For new modules under development or modules specific to a project (i.e., they couldn't be useful outside of the project), place them in this top-level modules directory. They should be written to be reusable across accounts and environments.
 
-## aws organizations and the root aws account
+## AWS Organizations
 
-AWS Organizations provide a native way to manage multiple AWS accounts. They provide consolidated billing, APIs (e.g., via Terraform) for automating account creation, and the ability to apply account-wide IAM like policies. These configurations are manged in the root AWS account. No other AWS resources should be defined in the root account.
+Using AWS Organizations is highly recommended for all our projects. They
+provide a way to handle consolidated billing, compartmentalization of
+environments and permissions, and a variety of other advantages. For a
+full discussion of how to set up an AWS Organization properly, see these
+resources in the Truss Engineering Playbook:
 
-## aws account aliases
+* [AWS Organizations Patterns](https://github.com/trussworks/Engineering-Playbook/blob/master/infra/aws/aws-organizations.md)
+* [AWS Organizations Bootstrap Guide](https://github.com/trussworks/Engineering-Playbook/blob/master/infra/aws/org-bootstrap.md)
 
-For each AWS account, we create a directory with the name of the account alias.
+## AWS Accounts
+
+For each AWS account, we create a directory with the name of the account
+alias.
 
 The following files are expected to be found:
 
-* `.envrc` — Account specific settings such as `AWS_PROFILE`. See the [example .envrc file](aws-account-alias-one/.envrc).
+* `.envrc` — Account specific settings such as `AWS_PROFILE`. See the
+  [example .envrc file](orgname-sandbox/.envrc).
 
-### bootstrap (optional)
+### The bootstrap Directory
 
-Inside each account directory there _may_ be a `bootstrap` directory. This is only needed if the AWS account doesn't already have a Terraform state bucket and locking table in place. E.g., a newly created account or an account that has never been managed with Terraform.
+When initially creating Terraform infrastructure, we use the
+[terraform-aws-bootstrap](https://github.com/trussworks/terraform-aws-bootstrap)
+repository to create the resources needed to set up remote Terraform
+state and locking via DynamoDB. If this is an organization we started
+from scratch, this directory should exist (and if you are setting up
+this infrastructure from scratch, you should follow this pattern and
+the instructions in that repository to set up each account).
 
-We populate this directly from our [terraform-aws-bootstrap](https://github.com/trussworks/terraform-aws-bootstrap) repository. It's used to create the resources needed to use Terraform with remote state and locking. This is the only directory where a `terraform.tfstate` file may live and be synchronized via git. Nothing besides these bootstrapped resources should be in here.
+Once an account is bootstrapped, *this directory should not be touched
+again* unless the account is being torn down. The directory will contain
+the statefile for these resources, and therefore doing anything with
+this namespace could break Terraform for the entire account.
 
-### stack environments
+No resources should be defined here aside from the two S3 buckets and
+the DynamoDB table that the bootstrap script creates.
+
+### admin-global
+
+The `admin-global` namespace is intended to hold resources that are used
+for overall account configuration. Resources defined here could include:
+
+* AWS Organization configurations (org-root account only)
+* Account level infrasec tools (eg, AWS Cloudtrail, AWS Config)
+* Non-application-specific IAM users, policies and roles
+* Non-stack-specific DNS configuration
+
+### Stack Environments
 
 ```text
 <stack>-<environment>
@@ -70,23 +132,37 @@ We populate this directly from our [terraform-aws-bootstrap](https://github.com/
 └── variables.tf
 ```
 
-This is where the meat of the matter is. For each stack and environment we create a directory with the name of the stack (or purpose) and environment.
-There are a few special names we use here.
+This is where the meat of the matter is. For each stack and environment
+we create a directory with the name of the stack (or purpose) and
+environment. We try to make these distinctive so that it is easy to tell
+what is in each namespace at a glance.
 
-By "stack", we mean a collection of resources around a single purpose. Some examples:
+A "stack" refers to a collection of resources serving a single purpose;
+if the "my-webapp" application consists of a frontend application, an
+API application, and a database, those three components make up a single
+stack.
 
-* "packer" – may hold all the resources for running Packer builds: VPC, Security Groups, IAM roles/policies, etc.
-* "myapp" - may hold all the resources for running the MyApp web app: VPC, ECS cluster and services, ECR repos, ALB, RDS, etc.
+The `global` environment is used for resources that might be shared
+between multiple individual environments. For instance, in this repo, the
+`orgname-sandbox` account holds two environments - the `experimental`
+environment and the `dev` environment. However, we decided we didn't need
+individual VPCs for those environments, so the single sandbox VPC is
+defined in the `app-my-webapp-global` namespace.
 
-For administrative resources we always use the special name "admin". An example of this would be managing IAM users, roles, and policies for engineers and/or external services.
-
-By "environment", we mean names like "prod", "staging", "lab", etc.
-
-For resources that are global across environments we always use the special name "global". An example of this would be an ECR repository that dev, staging, and prod all pull from.
+Other environments, like `experimental`, `dev`, or `prod`, contain all
+the resources for that isolated instance of the stack. Individual stacks
+should not interact with each other *except* through publically accessible
+methods (eg, an API interface exposed via an ALB).
 
 The following files are expected to be found:
 
-* `terraform.tf` — Contains the `terraform {}` configuration block. This will set a minimum `terraform` version and configure the backend.
-* `providers.tf` — Contains the `provider {}` blocks indicating the version of each provider needed.
-* `main.tf` — The infrastructure code. As this file grows, consider breaking it up into smaller, well-named files. For example, a `circleci.tf` file could contain the IAM user, group, and policies needed for a CircleCI build to run.
-* `variables.tf` — This almost always has, at minimum, a `region` variable set.
+* `terraform.tf` — Contains the `terraform {}` configuration block.
+  This will set a minimum `terraform` version and configure the backend.
+* `providers.tf` — Contains the `provider {}` blocks indicating the
+  version of each provider needed.
+* `main.tf` — The infrastructure code. As this file grows, consider
+   breaking it up into smaller, well-named files. For example, a
+   `circleci.tf` file could contain the IAM user, group, and policies
+   needed for a CircleCI build to run.
+* `variables.tf` — This almost always has, at minimum, a `region`
+  and `environment` variable set.

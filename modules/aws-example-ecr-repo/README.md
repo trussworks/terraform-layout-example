@@ -1,4 +1,3 @@
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 Creates an ECR repo and lifeycle policy. Defaults to our standard lifecycle
 policy if one is not supplied.
 
@@ -11,18 +10,32 @@ Creates the following resources:
 
 ```hcl
 module "ecr_ecs_myapp" {
- source = "../../modules/aws-ecr-repository"
- name   = "myapp"
+ source = "../../modules/aws-example-ecr-repo"
+ name   = "my-webapp"
+ tags   = {
+   Application = "my-webapp"
+ }
 }
 ```
+
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
+
+No requirements.
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| aws | n/a |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| lifecycle\_policy | ECR repository lifecycle policy document. Used to override our default policy. | string | `""` | no |
-| name | ECR repository name. | string | n/a | yes |
-| tags | Additional tags to apply. | map | `{}` | no |
+|------|-------------|------|---------|:--------:|
+| lifecycle\_policy | ECR repository lifecycle policy document. Used to override our default policy. | `string` | `""` | no |
+| name | ECR repository name. | `string` | n/a | yes |
+| tags | Additional tags to apply. | `map` | `{}` | no |
 
 ## Outputs
 

@@ -1,16 +1,16 @@
 variable "name" {
-  type        = "string"
   description = "ECR repository name."
+  type        = string
 }
 
 variable "lifecycle_policy" {
-  type        = "string"
   description = "ECR repository lifecycle policy document. Used to override our default policy."
+  type        = string
   default     = ""
 }
 
 variable "tags" {
-  type        = "map"
   description = "Additional tags to apply."
+  type        = map
   default     = {}
 }
