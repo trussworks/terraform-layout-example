@@ -3,7 +3,7 @@
 #
 
 # Generic role assumption policy requiring MFA
-data "aws_iam_policy_document" "role_assume_role_policy" {
+data "aws_iam_policy_document" "user_assume_role_policy" {
   statement {
     actions = ["sts:AssumeRole"]
     # only allow folks in this account
@@ -76,76 +76,74 @@ resource "aws_iam_user" "engineer_users" {
   }
 }
 
+# Here we're defining the groups for the users we created above using
+# the Truss module for this purpose. Note that we are specifying roles
+# *outside* this account that these users can assume; these will be
+# defined in those accounts with the Truss' iam-cross-acct-dest module.
+# Doing the role assumption this way avoids the role-chaining we used
+# to use, that would sometimes cause problems (and force short sessions).
+
 module "infra_group" {
   source  = "trussworks/iam-user-group/aws"
   version = "1.0.2"
 
-  user_list     = local.infra_users
-  allowed_roles = [module.infra_group_role.arn]
-  group_name    = "infra"
+  user_list = local.infra_users
+  allowed_roles = [
+    aws_iam_role.infra.arn,
+    "arn:aws:iam::${var.account_id_infra}:role/infra",
+    "arn:aws:iam::${var.account_id_sandbox}:role/infra",
+    "arn:aws:iam::${var.account_id_prod}:role/infra",
+  ]
+  group_name = "infra"
 }
 
 module "billing_group" {
   source  = "trussworks/iam-user-group/aws"
   version = "1.0.2"
 
-  user_list     = local.billing_users
-  allowed_roles = [module.billing_group_role.arn]
-  group_name    = "billing"
+  user_list = local.billing_users
+  allowed_roles = [
+    "arn:aws:iam::${var.account_id_org_root}:role/billing",
+  ]
+  group_name = "billing"
 }
 
 module "engineers_group" {
   source  = "trussworks/iam-user-group/aws"
   version = "1.0.2"
 
-  user_list     = local.engineer_users
-  allowed_roles = [module.engineer_group_role.arn]
-  group_name    = "engineers"
+  user_list = local.engineer_users
+  allowed_roles = [
+    aws_iam_role.engineer.arn,
+    "arn:aws:iam::${var.account_id_sandbox}:role/engineer",
+    "arn:aws:iam::${var.account_id_prod}:role/engineer",
+  ]
+  group_name = "engineer"
 }
 
-# These modules allow the users in the various groups to assume roles
-# in the other accounts of the organization; see the README for the
-# module at https://github.com/trussworks/terraform-aws-iam-cross-acct-src
+# These roles are users locally in the id account; note that the billing
+# group has no role in this account, since they don't need it -- there's
+# no billing data here in the id account, they just need to be able to
+# get it from the org-root account.
 
-module "infra_role" {
-  source  = "trussworks/iam-cross-acct-src/aws"
-  version = "1.0.0"
-
-  destination_account_ids = [
-    data.aws_caller_identity.current.account_id,
-    var.account_id_infra,
-    var.account_id_sandbox,
-    var.account_id_prod,
-  ]
-
-  destination_group_role = "infra"
+resource "aws_iam_role" "infra" {
+  name               = "infra"
+  assume_role_policy = data.aws_iam_policy_document.user_assume_role_policy.json
 }
 
-module "billing_role" {
-  source  = "trussworks/iam-cross-acct-src/aws"
-  version = "1.0.0"
-
-  destination_account_ids = [
-    var.account_id_org_root,
-  ]
-
-  destination_group_role = "billing"
-}
-
-module "engineer_role" {
-  source  = "trussworks/iam-cross-acct-src/aws"
-  version = "1.0.0"
-
-  destination_account_ids = [
-    var.account_id_sandbox,
-    var.account_id_prod,
-  ]
-
-  destination_group_role = "engineer"
+resource "aws_iam_role" "engineer" {
+  name               = "engineer"
+  assume_role_policy = data.aws_iam_policy_document.user_assume_role_policy.json
 }
 
 # This gives infra users power user access in the id account.
 resource "aws_iam_role_policy_attachment" "infra_local_policy_attachment" {
-  role       = module.infra_role.name
+  role       = aws_iam_role.infra.name
   policy_arn = "arn:aws:iam::aws:policy/PowerUserAccess"
+}
+
+# This gives engineers view-only access in the id account.
+resource "aws_iam_role_policy-attachment" "engineer_local_policy_attachment" {
+  role       = aws_iam_role.engineer.name
+  policy_arn = "arn:aws:iam::aws:policy/job-function/ViewOnlyAccess"
 }
