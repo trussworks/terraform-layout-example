@@ -8,20 +8,20 @@ output "aws_organizations_account_orgname_org_root_id" {
 
 output "aws_organizations_account_orgname_id_id" {
   description = "Account number for the orgname-id account"
-  value       = aws_organizations_account.orgname-id.id
+  value       = aws_organizations_account.orgname_id.id
 }
 
 output "aws_organizations_account_orgname_infra_id" {
   description = "Account number for the orgname-infra account"
-  value       = aws_organizations_account.orgname-infra.id
+  value       = aws_organizations_account.orgname_infra.id
 }
 
 output "aws_organizations_account_orgname_sandbox_id" {
   description = "Account number for the orgname-sandbox account"
-  value       = aws_organizations_account.orgname-sandbox.id
+  value       = aws_organizations_account.orgname_sandbox.id
 }
 
 output "aws_organizations_account_orgname_prod_id" {
   description = "Account number for the orgname-prod account"
-  value       = aws_organizations_account.orgname-prod.id
+  value       = aws_organizations_account.orgname_prod.id
 }

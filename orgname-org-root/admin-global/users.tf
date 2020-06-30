@@ -115,5 +115,5 @@ module "billing_role_access" {
   version = "~> 1.0.3"
 
   iam_role_name     = "billing"
-  source_account_id = aws_organizations_account.orgname-id.id
+  source_account_id = aws_organizations_account.orgname_id.id
 }

@@ -8,8 +8,20 @@ variable "account_id_org_root" {
   default     = "PLACEHOLDER"
 }
 
+variable "email_org_root" {
+  description = "Email address for org-root account"
+  type        = string
+  default     = "PLACEHOLDER"
+}
+
 variable "account_id_id" {
   description = "Account number for id account"
+  type        = string
+  default     = "PLACEHOLDER"
+}
+
+variable "email_id" {
+  description = "Email address for id account"
   type        = string
   default     = "PLACEHOLDER"
 }
