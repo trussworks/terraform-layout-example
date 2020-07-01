@@ -50,7 +50,7 @@ module "org_scps" {
 # AWS Organization Accounts
 #
 
-resource "aws_organizations_account" "orgname-id" {
+resource "aws_organizations_account" "orgname_id" {
   name      = format("%s-id", var.org_name)
   email     = format("%s+id@%s", var.org_email_alias, var.org_email_domain)
   parent_id = aws_organizations_organizational_unit.main.id
@@ -65,7 +65,7 @@ resource "aws_organizations_account" "orgname-id" {
   }
 }
 
-resource "aws_organizations_account" "orgname-infra" {
+resource "aws_organizations_account" "orgname_infra" {
   name      = format("%s-infra", var.org_name)
   email     = format("%s+infra@%s", var.org_email_alias, var.org_email_domain)
   parent_id = aws_organizations_organizational_unit.main.id
@@ -77,7 +77,7 @@ resource "aws_organizations_account" "orgname-infra" {
   }
 }
 
-resource "aws_organizations_account" "orgname-sandbox" {
+resource "aws_organizations_account" "orgname_sandbox" {
   name      = format("%s-sandbox", var.org_name)
   email     = format("%s+sandbox@%s", var.org_email_alias, var.org_email_domain)
   parent_id = aws_organizations_organizational_unit.main.id
@@ -89,7 +89,7 @@ resource "aws_organizations_account" "orgname-sandbox" {
   }
 }
 
-resource "aws_organizations_account" "orgname-prod" {
+resource "aws_organizations_account" "orgname_prod" {
   name      = format("%s-prod", var.org_name)
   email     = format("%s+prod@%s", var.org_email_alias, var.org_email_domain)
   parent_id = aws_organizations_organizational_unit.main.id

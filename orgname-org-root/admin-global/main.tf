@@ -65,42 +65,14 @@ module "config" {
 # GuardDuty
 #
 
-resource "aws_guardduty_detector" "main" {
-  enable = true
-}
+# AWS best practice is that the GuardDuty admin account is not the org-root
+# account, but one that is reserved for infra or security use. In our
+# example here, that's the orgname-infra account. All other GuardDuty
+# configuration is done in that account. See
+# orgname-infra/admin-global/guardduty.tf for more information.
 
-resource "aws_guardduty_member" "orgname-id" {
-  account_id                 = aws_organizations_account.orgname-id.id
-  detector_id                = aws_guardduty_detector.main.id
-  email                      = aws_organizations_account.orgname-id.email
-  invite                     = true
-  invitation_message         = "please accept guardduty invitation"
-  disable_email_notification = true
-}
+resource "aws_guardduty_organization_admin_account" "main" {
+  depends_on = [aws_organizations_organization.main]
 
-resource "aws_guardduty_member" "orgname-infra" {
-  account_id                 = aws_organizations_account.orgname-infra.id
-  detector_id                = aws_guardduty_detector.main.id
-  email                      = aws_organizations_account.orgname-infra.email
-  invite                     = true
-  invitation_message         = "please accept guardduty invitation"
-  disable_email_notification = true
-}
-
-resource "aws_guardduty_member" "orgname-sandbox" {
-  account_id                 = aws_organizations_account.orgname-sandbox.id
-  detector_id                = aws_guardduty_detector.main.id
-  email                      = aws_organizations_account.orgname-sandbox.email
-  invite                     = true
-  invitation_message         = "please accept guardduty invitation"
-  disable_email_notification = true
-}
-
-resource "aws_guardduty_member" "orgname-prod" {
-  account_id                 = aws_organizations_account.orgname-prod.id
-  detector_id                = aws_guardduty_detector.main.id
-  email                      = aws_organizations_account.orgname-prod.email
-  invite                     = true
-  invitation_message         = "please accept guardduty invitation"
-  disable_email_notification = true
+  admin_account_id = aws_organization_account.orgname_infra.id
 }

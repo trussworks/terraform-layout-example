@@ -33,19 +33,6 @@ module "config" {
   check_multi_region_cloud_trail        = true
 }
 
-#
-# GuardDuty
-#
-
-resource "aws_guardduty_detector" "member" {
-  enable = true
-}
-
-resource "aws_guardduty_invite_accepter" "member" {
-  detector_id       = aws_guardduty_detector.member.id
-  master_account_id = var.account_id_org_root
-}
-
 # This module allows the users from the id account to assume the infra
 # role in this account. See the README for more details at
 # https://github.com/trussworks/terraform-aws-iam-cross-acct-dest
