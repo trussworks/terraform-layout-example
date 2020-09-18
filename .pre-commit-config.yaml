@@ -16,6 +16,7 @@ repos:
     rev: v0.22.0
     hooks:
       - id: markdownlint
+        exclude: CODE_OF_CONDUCT.md
 
   - repo: git://github.com/detailyang/pre-commit-shell
     rev: 1.0.5
