@@ -170,7 +170,7 @@ The following files are expected to be found:
 #### A Note on Variables vs Locals
 
 You'll notice that instead of defining variables for the root module
-with `localsi`, we define them in `variables.tf` with `variable` blocks.
+with `locals`, we define them in `variables.tf` with `variable` blocks.
 We do this because if you use locals, you cannot do a `terraform
 import`, which has caused us problems in the past. In addition, with
 `variable` declarations, you can also define the type and description
