@@ -8,7 +8,8 @@
       "matchUpdateTypes": [
         "patch",
         "pin",
-        "digest"
+        "digest",
+        "minor"
       ]
     },
     {
@@ -17,7 +18,10 @@
         "terraform"
       ],
       "matchUpdateTypes": [
-        "minor"
+        "minor",
+        "patch",
+        "pin",
+        "major"
       ]
     }
   ],
