@@ -1,10 +1,10 @@
 provider "aws" {
-  version = "~> 2.59"
+  version = "~> 3.0"
   region  = var.region
 }
 
 provider "aws" {
-  version = "~> 2.59"
+  version = "~> 3.0"
   alias   = "us-east-1"
   region  = "us-east-1"
 }
