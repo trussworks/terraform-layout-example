@@ -8,7 +8,7 @@ data "aws_am_account_alias" "current" {}
 
 module "logs" {
   source  = "trussworks/logs/aws"
-  version = "8.0.1"
+  version = "8.5.0"
 
   default_allow = false
 

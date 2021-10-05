@@ -6,7 +6,7 @@ data "aws_caller_identity" "current" {}
 
 module "logs" {
   source  = "trussworks/logs/aws"
-  version = "~> 8.0.0"
+  version = "~> 8.5.0"
 
   default_allow = false
   allow_config  = true
