@@ -85,7 +85,7 @@ resource "aws_iam_user" "engineer_users" {
 
 module "infra_group" {
   source  = "trussworks/iam-user-group/aws"
-  version = "1.0.2"
+  version = "1.0.3"
 
   user_list = local.infra_users
   allowed_roles = [
@@ -99,7 +99,7 @@ module "infra_group" {
 
 module "billing_group" {
   source  = "trussworks/iam-user-group/aws"
-  version = "1.0.2"
+  version = "1.0.3"
 
   user_list = local.billing_users
   allowed_roles = [
@@ -110,7 +110,7 @@ module "billing_group" {
 
 module "engineers_group" {
   source  = "trussworks/iam-user-group/aws"
-  version = "1.0.2"
+  version = "1.0.3"
 
   user_list = local.engineer_users
   allowed_roles = [
