@@ -13,7 +13,7 @@ output "sandbox_example_com_nameservers" {
 # Add query logging to our zone.
 module "sandbox_example_com_query_logging" {
   source  = "trussworks/route53-query-logs/aws"
-  version = "~> 2.0.1"
+  version = "~> 3.1.0"
 
   # See orgname-infra/admin-global/dns.tf for an explanation of this line.
   providers = { aws.us-east-1 = aws.us-east-1 }

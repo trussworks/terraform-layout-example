@@ -6,7 +6,7 @@ data "aws_caller_identity" "current" {}
 
 module "logs" {
   source  = "trussworks/logs/aws"
-  version = "~> 8.0.0"
+  version = "~> 11.0.0"
 
   default_allow = false
   allow_config  = true
@@ -21,7 +21,7 @@ module "logs" {
 
 module "config" {
   source  = "trussworks/config/aws"
-  version = "~> 2.5"
+  version = "~> 4.0"
 
   config_name        = format("%s-config-%s", data.aws_iam_account_alias.current.account_alias, var.region)
   config_logs_bucket = module.logs.aws_logs_bucket

@@ -24,7 +24,7 @@ data "aws_iam_policy_document" "user_assume_role_policy" {
 # be added to the iam_groups argument.
 module "iam_enforce_mfa" {
   source  = "trussworks/mfa/aws"
-  version = "~>1.0.0"
+  version = "~> 3.0.0"
 
   iam_groups = ["infra", "engineers", "billing"]
   iam_users  = []
@@ -85,7 +85,7 @@ resource "aws_iam_user" "engineer_users" {
 
 module "infra_group" {
   source  = "trussworks/iam-user-group/aws"
-  version = "1.0.3"
+  version = "2.1.0"
 
   user_list = local.infra_users
   allowed_roles = [
@@ -99,7 +99,7 @@ module "infra_group" {
 
 module "billing_group" {
   source  = "trussworks/iam-user-group/aws"
-  version = "1.0.3"
+  version = "2.1.0"
 
   user_list = local.billing_users
   allowed_roles = [
@@ -110,7 +110,7 @@ module "billing_group" {
 
 module "engineers_group" {
   source  = "trussworks/iam-user-group/aws"
-  version = "1.0.3"
+  version = "2.1.0"
 
   user_list = local.engineer_users
   allowed_roles = [
