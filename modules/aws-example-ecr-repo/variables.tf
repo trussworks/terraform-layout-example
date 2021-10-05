@@ -11,6 +11,6 @@ variable "lifecycle_policy" {
 
 variable "tags" {
   description = "Additional tags to apply."
-  type        = map
+  type        = map(any)
   default     = {}
 }

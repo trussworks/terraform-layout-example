@@ -1,31 +1,31 @@
 {
-    "extends": [
-      "config:base"
-    ],
-    "packageRules": [
-      {
-        "automerge": true,
-        "matchUpdateTypes": [
-          "patch",
-          "pin",
-          "digest"
-        ]
-      },
-      {
-        "groupName": "terraform",
-        "managers": [
-          "terraform"
-        ],
-        "matchUpdateTypes": [
-          "minor"
-        ]
-      }
-    ],
-    "prConcurrentLimit": 2,
-    "schedule": [
-      "every weekday",
-      "after 9am and before 5pm"
-    ],
-    "separateMinorPatch": true,
-    "timezone": "America/Los_Angeles"
-  }
+  "extends": [
+    "config:base"
+  ],
+  "packageRules": [
+    {
+      "automerge": true,
+      "matchUpdateTypes": [
+        "patch",
+        "pin",
+        "digest"
+      ]
+    },
+    {
+      "groupName": "terraform",
+      "managers": [
+        "terraform"
+      ],
+      "matchUpdateTypes": [
+        "minor"
+      ]
+    }
+  ],
+  "prConcurrentLimit": 2,
+  "schedule": [
+    "every weekday",
+    "after 9am and before 5pm"
+  ],
+  "separateMinorPatch": true,
+  "timezone": "America/Los_Angeles"
+}

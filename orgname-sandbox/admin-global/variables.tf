@@ -22,12 +22,12 @@ variable "log_retention_days" {
 
 variable "logging_bucket" {
   description = "S3 bucket for AWS logs"
-  type        = "string"
+  type        = string
   default     = "orgname-sandbox-aws-logs"
 }
 
 variable "region" {
   description = "AWS Region"
-  type        = "string"
+  type        = string
   default     = "us-west-2"
 }
