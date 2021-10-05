@@ -29,18 +29,28 @@ No requirements.
 |------|---------|
 | aws | n/a |
 
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_ecr_lifecycle_policy.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_lifecycle_policy) | resource |
+| [aws_ecr_repository.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository) | resource |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | lifecycle\_policy | ECR repository lifecycle policy document. Used to override our default policy. | `string` | `""` | no |
 | name | ECR repository name. | `string` | n/a | yes |
-| tags | Additional tags to apply. | `map` | `{}` | no |
+| tags | Additional tags to apply. | `map(any)` | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
 | arn | Full ARN of the repository. |
-
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -4,7 +4,7 @@ jobs:
     - auth:
         password: $DOCKER_PASSWORD
         username: $DOCKER_USERNAME
-      image: trussworks/circleci:29ab89fdada1f85c5d8fb685a2c71660f0c5f60c
+      image: trussworks/circleci:5c4677b05aceab93961b9b25ca7554f1145ef941
     steps:
     - checkout
     - restore_cache:

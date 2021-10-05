@@ -25,6 +25,19 @@ No requirements.
 |------|---------|
 | aws | n/a |
 
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| vpc | terraform-aws-modules/vpc/aws | ~> 2.33.0 |
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_default_security_group.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/default_security_group) | resource |
+| [aws_eip.nat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip) | resource |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -44,5 +57,4 @@ No requirements.
 | public\_subnets | List of IDs of public subnets. |
 | vpc\_id | The ID of the VPC. |
 | vpc\_name | The name of the VPC. |
-
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

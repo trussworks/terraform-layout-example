@@ -1,5 +1,5 @@
 variable "environment" {
-  type = "string"
+  type = string
 }
 
 variable "logging_bucket" {
