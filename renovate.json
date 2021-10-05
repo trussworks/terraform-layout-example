@@ -1,5 +1,9 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    {
+      "prConcurrentLimit": 0,
+      "prHourlyLimit": 0
+    }
   ]
 }
