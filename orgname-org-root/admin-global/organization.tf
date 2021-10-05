@@ -37,7 +37,7 @@ resource "aws_organizations_organizational_unit" "suspend" {
 # see the README at https://github.com/trussworks/terraform-aws-org-scp
 module "org_scps" {
   source  = "trussworks/org-scp/aws"
-  version = "~> 1.4.0"
+  version = "~> 1.6.0"
 
   deny_root_account_target_ids     = [aws_organizations_organizational_unit.main.id]
   deny_leaving_orgs_target_ids     = [aws_organizations_organizational_unit.main.id]

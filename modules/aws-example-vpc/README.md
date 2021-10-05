@@ -29,7 +29,7 @@ No requirements.
 
 | Name | Source | Version |
 |------|--------|---------|
-| vpc | terraform-aws-modules/vpc/aws | ~> 2.33.0 |
+| vpc | terraform-aws-modules/vpc/aws | ~> 2.78.0 |
 
 ## Resources
 
