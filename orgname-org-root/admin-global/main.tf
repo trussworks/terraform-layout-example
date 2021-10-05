@@ -31,7 +31,7 @@ module "logs" {
 
 module "cloudtrail" {
   source             = "trussworks/cloudtrail/aws"
-  version            = "2.0.4"
+  version            = "4.3.0"
   encrypt_cloudtrail = true
   org_trail          = true
   s3_bucket_name     = module.logs.aws_logs_bucket
