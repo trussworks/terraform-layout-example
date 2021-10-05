@@ -21,7 +21,6 @@
       ]
     }
   ],
-  "prConcurrentLimit": 2,
   "schedule": [
     "every weekday",
     "after 9am and before 5pm"
