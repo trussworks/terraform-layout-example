@@ -47,7 +47,7 @@ resource "aws_guardduty_organization_configuration" "main_useast1" {
 
 module "guardduty_notifications_uswest2" {
   source  = "trussworks/guardduty-notifications/aws"
-  version = "~> 3.0.1"
+  version = "~> 5.0.0"
 
   pagerduty_notifications = false
 
@@ -60,7 +60,7 @@ module "guardduty_notifications_useast1" {
   }
 
   source  = "trussworks/guardduty-notifications/aws"
-  version = "~> 3.0.1"
+  version = "~> 5.0.0"
 
   pagerduty_notifications = false
 
