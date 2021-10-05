@@ -34,15 +34,15 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| aws | n/a |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_alb_my_webapp"></a> [alb\_my\_webapp](#module\_alb\_my\_webapp) | trussworks/alb-web-containers/aws | ~> 3.0.2 |
-| <a name="module_ecs_service_my_webapp"></a> [ecs\_service\_my\_webapp](#module\_ecs\_service\_my\_webapp) | trussworks/ecs-service/aws | ~> 3.0.0 |
-| <a name="module_my_webapp_db"></a> [my\_webapp\_db](#module\_my\_webapp\_db) | terraform-aws-modules/rds/aws | ~> 2.14 |
+| alb\_my\_webapp | trussworks/alb-web-containers/aws | ~> 3.0.2 |
+| ecs\_service\_my\_webapp | trussworks/ecs-service/aws | ~> 3.0.0 |
+| my\_webapp\_db | terraform-aws-modules/rds/aws | ~> 2.14 |
 
 ## Resources
 
@@ -72,29 +72,29 @@ No requirements.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_alb_health_check_interval"></a> [alb\_health\_check\_interval](#input\_alb\_health\_check\_interval) | Interval for ALB health check (in seconds) | `number` | `30` | no |
-| <a name="input_alb_health_check_path"></a> [alb\_health\_check\_path](#input\_alb\_health\_check\_path) | Path for ALB health check | `string` | `"/health"` | no |
-| <a name="input_alb_health_check_timeout"></a> [alb\_health\_check\_timeout](#input\_alb\_health\_check\_timeout) | Timeout for ALB health check (in seconds) | `number` | `5` | no |
-| <a name="input_alb_logs_bucket"></a> [alb\_logs\_bucket](#input\_alb\_logs\_bucket) | S3 bucket for ALB logs | `string` | n/a | yes |
-| <a name="input_alb_subnets"></a> [alb\_subnets](#input\_alb\_subnets) | Subnets for ALB | `list(string)` | n/a | yes |
-| <a name="input_container_port"></a> [container\_port](#input\_container\_port) | Port for container listener | `number` | `8080` | no |
-| <a name="input_db_allocated_storage"></a> [db\_allocated\_storage](#input\_db\_allocated\_storage) | Allocated storage for RDS instance (in GB) | `number` | `20` | no |
-| <a name="input_db_backup_retention"></a> [db\_backup\_retention](#input\_db\_backup\_retention) | RDS backup retention (in days) | `number` | `7` | no |
-| <a name="input_db_instance_class"></a> [db\_instance\_class](#input\_db\_instance\_class) | Instance class for RDS instance | `string` | `"db.t3.small"` | no |
-| <a name="input_db_multi_az"></a> [db\_multi\_az](#input\_db\_multi\_az) | Multi AZ setting for RDS | `bool` | `false` | no |
-| <a name="input_db_name"></a> [db\_name](#input\_db\_name) | Name for database on RDS instance | `string` | `"my_webapp"` | no |
-| <a name="input_db_subnet_group_name"></a> [db\_subnet\_group\_name](#input\_db\_subnet\_group\_name) | DB subnet group name | `string` | n/a | yes |
-| <a name="input_db_subnets"></a> [db\_subnets](#input\_db\_subnets) | List of DB subnets | `list(string)` | n/a | yes |
-| <a name="input_db_user"></a> [db\_user](#input\_db\_user) | User for accessing RDS instance | `string` | `"master"` | no |
-| <a name="input_dns_zone_id"></a> [dns\_zone\_id](#input\_dns\_zone\_id) | Zone ID for DNS | `string` | n/a | yes |
-| <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | Outward facing FQDN for service | `string` | n/a | yes |
-| <a name="input_ecs_subnets"></a> [ecs\_subnets](#input\_ecs\_subnets) | Subnets for ECS service | `list(string)` | n/a | yes |
-| <a name="input_environment"></a> [environment](#input\_environment) | Environment | `string` | n/a | yes |
-| <a name="input_final_snapshot_identifier"></a> [final\_snapshot\_identifier](#input\_final\_snapshot\_identifier) | Final RDS snapshot identifier | `string` | `""` | no |
-| <a name="input_pg_family"></a> [pg\_family](#input\_pg\_family) | DB parameter family for RDS instance | `string` | `"postgres12"` | no |
-| <a name="input_pg_version"></a> [pg\_version](#input\_pg\_version) | PostgreSQL version for the RDS instance | `string` | `"12.2"` | no |
-| <a name="input_tasks_desired_count"></a> [tasks\_desired\_count](#input\_tasks\_desired\_count) | Number of ECS tasks to run | `number` | `1` | no |
-| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC ID | `string` | n/a | yes |
+| alb\_health\_check\_interval | Interval for ALB health check (in seconds) | `number` | `30` | no |
+| alb\_health\_check\_path | Path for ALB health check | `string` | `"/health"` | no |
+| alb\_health\_check\_timeout | Timeout for ALB health check (in seconds) | `number` | `5` | no |
+| alb\_logs\_bucket | S3 bucket for ALB logs | `string` | n/a | yes |
+| alb\_subnets | Subnets for ALB | `list(string)` | n/a | yes |
+| container\_port | Port for container listener | `number` | `8080` | no |
+| db\_allocated\_storage | Allocated storage for RDS instance (in GB) | `number` | `20` | no |
+| db\_backup\_retention | RDS backup retention (in days) | `number` | `7` | no |
+| db\_instance\_class | Instance class for RDS instance | `string` | `"db.t3.small"` | no |
+| db\_multi\_az | Multi AZ setting for RDS | `bool` | `false` | no |
+| db\_name | Name for database on RDS instance | `string` | `"my_webapp"` | no |
+| db\_subnet\_group\_name | DB subnet group name | `string` | n/a | yes |
+| db\_subnets | List of DB subnets | `list(string)` | n/a | yes |
+| db\_user | User for accessing RDS instance | `string` | `"master"` | no |
+| dns\_zone\_id | Zone ID for DNS | `string` | n/a | yes |
+| domain\_name | Outward facing FQDN for service | `string` | n/a | yes |
+| ecs\_subnets | Subnets for ECS service | `list(string)` | n/a | yes |
+| environment | Environment | `string` | n/a | yes |
+| final\_snapshot\_identifier | Final RDS snapshot identifier | `string` | `""` | no |
+| pg\_family | DB parameter family for RDS instance | `string` | `"postgres12"` | no |
+| pg\_version | PostgreSQL version for the RDS instance | `string` | `"12.2"` | no |
+| tasks\_desired\_count | Number of ECS tasks to run | `number` | `1` | no |
+| vpc\_id | VPC ID | `string` | n/a | yes |
 
 ## Outputs
 

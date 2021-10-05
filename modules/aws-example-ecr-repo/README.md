@@ -27,7 +27,7 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| aws | n/a |
 
 ## Modules
 
@@ -44,13 +44,13 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_lifecycle_policy"></a> [lifecycle\_policy](#input\_lifecycle\_policy) | ECR repository lifecycle policy document. Used to override our default policy. | `string` | `""` | no |
-| <a name="input_name"></a> [name](#input\_name) | ECR repository name. | `string` | n/a | yes |
-| <a name="input_tags"></a> [tags](#input\_tags) | Additional tags to apply. | `map` | `{}` | no |
+| lifecycle\_policy | ECR repository lifecycle policy document. Used to override our default policy. | `string` | `""` | no |
+| name | ECR repository name. | `string` | n/a | yes |
+| tags | Additional tags to apply. | `map(any)` | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_arn"></a> [arn](#output\_arn) | Full ARN of the repository. |
+| arn | Full ARN of the repository. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
