@@ -1,5 +1,28 @@
 {
   "extends": [
     "config:base"
-  ]
+  ],
+  "packageRules": [
+    {
+      "automerge": true,
+      "matchUpdateTypes": [
+        "patch",
+        "pin",
+        "digest",
+        "minor",
+        "major"
+      ]
+    },
+    {
+      "groupName": "terraform",
+      "managers": [
+        "terraform"
+      ],
+      "matchUpdateTypes": [
+        "minor"
+      ]
+    }
+  ],
+  "separateMinorPatch": true,
+  "timezone": "America/Los_Angeles"
 }
