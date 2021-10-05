@@ -31,7 +31,7 @@ locals {
 
 module "admins_group" {
   source  = "trussworks/iam-user-group/aws"
-  version = "1.0.2"
+  version = "1.0.3"
 
   user_list     = local.admin_users
   group_name    = "admins"
