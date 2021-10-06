@@ -1,6 +1,6 @@
 data "aws_caller_identity" "current" {}
 
-data "aws_am_account_alias" "current" {}
+data "aws_iam_account_alias" "current" {}
 
 #
 # AWS Logs
@@ -21,7 +21,6 @@ module "logs" {
     aws_organizations_organization.main.accounts[*].id
   )
 
-  region         = var.region
   s3_bucket_name = var.logging_bucket
 }
 
@@ -30,11 +29,10 @@ module "logs" {
 #
 
 module "cloudtrail" {
-  source             = "trussworks/cloudtrail/aws"
-  version            = "4.3.0"
-  encrypt_cloudtrail = true
-  org_trail          = true
-  s3_bucket_name     = module.logs.aws_logs_bucket
+  source         = "trussworks/cloudtrail/aws"
+  version        = "4.3.0"
+  org_trail      = true
+  s3_bucket_name = module.logs.aws_logs_bucket
 }
 
 #
@@ -74,5 +72,5 @@ module "config" {
 resource "aws_guardduty_organization_admin_account" "main" {
   depends_on = [aws_organizations_organization.main]
 
-  admin_account_id = aws_organization_account.orgname_infra.id
+  admin_account_id = aws_organizations_account.orgname_infra.id
 }
