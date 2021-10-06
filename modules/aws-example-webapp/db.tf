@@ -119,7 +119,7 @@ resource "aws_ssm_parameter" "database_host" {
 
 module "my_webapp_db" {
   source  = "terraform-aws-modules/rds/aws"
-  version = "~> 2.14"
+  version = "~> 3.0"
 
   identifier = format("my-webapp-%s", var.environment)
 
