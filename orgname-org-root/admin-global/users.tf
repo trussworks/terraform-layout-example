@@ -112,7 +112,7 @@ resource "aws_iam_policy" "limited_billing_access" {
 # the billing role in this account.
 module "billing_role_access" {
   source  = "trussworks/iam-cross-acct-dest/aws"
-  version = "~> 1.0.3"
+  version = "~> 3.0.0"
 
   iam_role_name     = "billing"
   source_account_id = aws_organizations_account.orgname_id.id
