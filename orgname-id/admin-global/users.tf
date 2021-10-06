@@ -24,7 +24,7 @@ data "aws_iam_policy_document" "user_assume_role_policy" {
 # be added to the iam_groups argument.
 module "iam_enforce_mfa" {
   source  = "trussworks/mfa/aws"
-  version = "~>1.0.0"
+  version = "~> 3.0.0"
 
   iam_groups = ["infra", "engineers", "billing"]
   iam_users  = []

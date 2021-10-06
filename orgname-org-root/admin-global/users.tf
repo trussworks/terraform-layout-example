@@ -2,7 +2,7 @@
 # do pretty much anything except set up MFA.
 module "iam_enforce_mfa" {
   source  = "trussworks/mfa/aws"
-  version = "~> 2.1.0"
+  version = "~> 3.0.0"
 
   iam_groups = ["admins"]
   iam_users  = []
