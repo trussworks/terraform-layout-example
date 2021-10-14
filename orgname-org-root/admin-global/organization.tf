@@ -28,7 +28,7 @@ resource "aws_organizations_organizational_unit" "main" {
 
 # This OU is for locking down accounts we believe are compromised or which
 # should not contain any actual resources (like GovCloud placeholders).
-resource "aws_organizations_organizational_unit" "suspend" {
+resource "aws_organizations_organizational_unit" "suspended" {
   name      = "suspended"
   parent_id = aws_organizations_organization.main.roots.0.id
 }
