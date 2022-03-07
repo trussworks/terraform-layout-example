@@ -1,5 +1,5 @@
 provider "aws" {
-  version = "~> 3.0"
+  version = "~> 4.0"
   region  = var.region
 }
 
@@ -7,7 +7,7 @@ provider "aws" {
 # only exists in us-east-1. Note that we call this specifically where
 # we create DNS entries.
 provider "aws" {
-  version = "~> 3.0"
+  version = "~> 4.0"
   alias   = "us-east-1"
   region  = "us-east-1"
 }
