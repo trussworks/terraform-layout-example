@@ -190,7 +190,7 @@ resource "aws_ecs_cluster" "app_my_webapp" {
 
 module "ecs_service_my_webapp" {
   source  = "trussworks/ecs-service/aws"
-  version = "~> 6.5.0"
+  version = "~> 6.6.0"
 
   name        = "my-webapp"
   environment = var.environment

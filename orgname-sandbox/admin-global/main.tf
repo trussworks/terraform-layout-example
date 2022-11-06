@@ -53,7 +53,7 @@ resource "aws_guardduty_invite_accepter" "member" {
 
 module "infra_role" {
   source  = "trussworks/iam-cross-acct-dest/aws"
-  version = "3.0.1"
+  version = "3.1.0"
 
   iam_role_name     = "infra"
   source_account_id = var.account_id_id
@@ -61,7 +61,7 @@ module "infra_role" {
 
 module "engineer_role" {
   source  = "trussworks/iam-cross-acct-dest/aws"
-  version = "3.0.1"
+  version = "3.1.0"
 
   iam_role_name     = "engineer"
   source_account_id = var.account_id_id
