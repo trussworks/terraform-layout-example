@@ -81,8 +81,8 @@ environments and permissions, and a variety of other advantages. For a
 full discussion of how to set up an AWS Organization properly, see these
 resources in the Truss Engineering Playbook:
 
-* [AWS Organizations Patterns](https://github.com/trussworks/Engineering-Playbook/blob/master/infrasec/aws/aws-organizations.md)
-* [AWS Organizations Bootstrap Guide](https://github.com/trussworks/Engineering-Playbook/blob/master/infrasec/aws/org-bootstrap.md)
+* [AWS Organizations Patterns](https://playbook.truss.dev/docs/infrasec/aws/aws-organizations)
+* [AWS Organizations Bootstrap Guide](https://playbook.truss.dev/docs/infrasec/aws/org-bootstrap)
 
 ## AWS Accounts
 
