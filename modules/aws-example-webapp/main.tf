@@ -49,7 +49,7 @@ resource "aws_route53_record" "acm_my_webapp_validation" {
 
 module "alb_my_webapp" {
   source  = "trussworks/alb-web-containers/aws"
-  version = "~> 6.2.0"
+  version = "~> 7.0.0"
 
   name           = "my-webapp"
   environment    = var.environment
