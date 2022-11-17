@@ -1,3 +1,4 @@
 settings:
-  anchor: false
   html: false
+  anchor: false
+formatter: "markdown table"
