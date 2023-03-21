@@ -176,7 +176,6 @@ import`, which has caused us problems in the past. In addition, with
 for the variable, which can provide additional context for human users.
 
 <!-- BEGIN_TF_DOCS -->
-
 ## Requirements
 
 No requirements.
@@ -200,5 +199,4 @@ No inputs.
 ## Outputs
 
 No outputs.
-
 <!-- END_TF_DOCS -->
