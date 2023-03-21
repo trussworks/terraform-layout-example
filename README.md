@@ -61,7 +61,7 @@ depending on the project's needs.
 
 Additional tools and scripts needed for managing the infrastructure also go here.
 
-## Modules
+## Modules directory
 
 In general, we should avoid having modules in the Terraform repository
 proper. We should make every effort to open source modules and add them
@@ -176,6 +176,7 @@ import`, which has caused us problems in the past. In addition, with
 for the variable, which can provide additional context for human users.
 
 <!-- BEGIN_TF_DOCS -->
+
 ## Requirements
 
 No requirements.
@@ -199,4 +200,5 @@ No inputs.
 ## Outputs
 
 No outputs.
+
 <!-- END_TF_DOCS -->
