@@ -175,3 +175,29 @@ We do this because if you use locals, you cannot do a `terraform
 import`, which has caused us problems in the past. In addition, with
 `variable` declarations, you can also define the type and description
 for the variable, which can provide additional context for human users.
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+No requirements.
+
+## Providers
+
+No providers.
+
+## Modules
+
+No modules.
+
+## Resources
+
+No resources.
+
+## Inputs
+
+No inputs.
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->
