@@ -33,11 +33,3 @@ repos:
     rev: 1.0.5
     hooks:
       - id: shell-lint
-
-  - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.77.1
-    hooks:
-      - id: terraform_docs
-        args:
-          - --args=--config=.terraform-docs.yml
-      - id: terraform_fmt

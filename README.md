@@ -2,7 +2,7 @@
 
 This repository is meant to serve as an example of how Truss builds out
 repositories for Terraform deployments. We've taken care to add as much
-documentation and code comments around *why* we do things the way they
+documentation and code comments around _why_ we do things the way they
 are outlined here as possible, so that newcomers to these patterns can
 gain some understanding of why we did things this way.
 
@@ -37,10 +37,10 @@ file issues and/or PRs to improve the quality of the repo.
 
 The following files are expected to be found:
 
-* `README.md` — Should contain, at the very least, a configuration guide
+- `README.md` — Should contain, at the very least, a configuration guide
   for accessing the necessary cloud services. For example, instructions
   on using `aws-vault` to configure your AWS credentials.
-* `.envrc` — Global settings across accounts. E.g.,
+- `.envrc` — Global settings across accounts. E.g.,
   `AWS_VAULT_KEYCHAIN_NAME`, `CHAMBER_KMS_KEY_ALIAS`. See the [example
   .envrc file](.envrc).
 
@@ -61,7 +61,7 @@ depending on the project's needs.
 
 Additional tools and scripts needed for managing the infrastructure also go here.
 
-## Modules
+## Modules directory
 
 In general, we should avoid having modules in the Terraform repository
 proper. We should make every effort to open source modules and add them
@@ -72,7 +72,6 @@ repository and use them from there via the Git source method (see
 in the Terraform docs). See the [Modules directory README](modules/README.md)
 for a more thorough explanation.
 
-
 ## AWS Organizations
 
 Using AWS Organizations is highly recommended for all our projects. They
@@ -81,8 +80,8 @@ environments and permissions, and a variety of other advantages. For a
 full discussion of how to set up an AWS Organization properly, see these
 resources in the Truss Engineering Playbook:
 
-* [AWS Organizations Patterns](https://playbook.truss.dev/docs/infrasec/aws/aws-organizations)
-* [AWS Organizations Bootstrap Guide](https://playbook.truss.dev/docs/infrasec/aws/org-bootstrap)
+- [AWS Organizations Patterns](https://playbook.truss.dev/docs/infrasec/aws/aws-organizations)
+- [AWS Organizations Bootstrap Guide](https://playbook.truss.dev/docs/infrasec/aws/org-bootstrap)
 
 ## AWS Accounts
 
@@ -91,7 +90,7 @@ alias.
 
 The following files are expected to be found:
 
-* `.envrc` — Account specific settings such as `AWS_PROFILE`. See the
+- `.envrc` — Account specific settings such as `AWS_PROFILE`. See the
   [example .envrc file](orgname-sandbox/.envrc).
 
 ### The bootstrap Directory
@@ -104,8 +103,8 @@ from scratch, this directory should exist (and if you are setting up
 this infrastructure from scratch, you should follow this pattern and
 the instructions in that repository to set up each account).
 
-Once an account is bootstrapped, *this directory should not be touched
-again* unless the account is being torn down. The directory will contain
+Once an account is bootstrapped, _this directory should not be touched
+again_ unless the account is being torn down. The directory will contain
 the statefile for these resources, and therefore doing anything with
 this namespace could break Terraform for the entire account.
 
@@ -117,10 +116,10 @@ the DynamoDB table that the bootstrap script creates.
 The `admin-global` namespace is intended to hold resources that are used
 for overall account configuration. Resources defined here could include:
 
-* AWS Organization configurations (org-root account only)
-* Account level infrasec tools (eg, AWS Cloudtrail, AWS Config)
-* Non-application-specific IAM users, policies and roles
-* Non-stack-specific DNS configuration
+- AWS Organization configurations (org-root account only)
+- Account level infrasec tools (eg, AWS Cloudtrail, AWS Config)
+- Non-application-specific IAM users, policies and roles
+- Non-stack-specific DNS configuration
 
 ### Stack Environments
 
@@ -151,20 +150,20 @@ defined in the `app-my-webapp-global` namespace.
 
 Other environments, like `experimental`, `dev`, or `prod`, contain all
 the resources for that isolated instance of the stack. Individual stacks
-should not interact with each other *except* through publically accessible
+should not interact with each other _except_ through publically accessible
 methods (eg, an API interface exposed via an ALB).
 
 The following files are expected to be found:
 
-* `terraform.tf` — Contains the `terraform {}` configuration block.
+- `terraform.tf` — Contains the `terraform {}` configuration block.
   This will set a minimum `terraform` version and configure the backend.
-* `providers.tf` — Contains the `provider {}` blocks indicating the
+- `providers.tf` — Contains the `provider {}` blocks indicating the
   version of each provider needed.
-* `main.tf` — The infrastructure code. As this file grows, consider
-   breaking it up into smaller, well-named files. For example, a
-   `circleci.tf` file could contain the IAM user, group, and policies
-   needed for a CircleCI build to run.
-* `variables.tf` — This almost always has, at minimum, a `region`
+- `main.tf` — The infrastructure code. As this file grows, consider
+  breaking it up into smaller, well-named files. For example, a
+  `circleci.tf` file could contain the IAM user, group, and policies
+  needed for a CircleCI build to run.
+- `variables.tf` — This almost always has, at minimum, a `region`
   and `environment` variable set.
 
 #### A Note on Variables vs Locals
@@ -175,3 +174,29 @@ We do this because if you use locals, you cannot do a `terraform
 import`, which has caused us problems in the past. In addition, with
 `variable` declarations, you can also define the type and description
 for the variable, which can provide additional context for human users.
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+No requirements.
+
+## Providers
+
+No providers.
+
+## Modules
+
+No modules.
+
+## Resources
+
+No resources.
+
+## Inputs
+
+No inputs.
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->
