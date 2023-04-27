@@ -71,8 +71,6 @@ module "vpc" {
   reuse_nat_ips      = true
   external_nat_ips   = aws_eip.nat.*.id
 
-  enable_s3_endpoint = true
-
   tags = {
     Environment = var.environment
     Automation  = "Terraform"
