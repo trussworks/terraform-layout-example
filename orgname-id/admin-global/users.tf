@@ -143,7 +143,7 @@ resource "aws_iam_role_policy_attachment" "infra_local_policy_attachment" {
 }
 
 # This gives engineers view-only access in the id account.
-resource "aws_iam_role_policy-attachment" "engineer_local_policy_attachment" {
+resource "aws_iam_role_policy_attachment" "engineer_local_policy_attachment" {
   role       = aws_iam_role.engineer.name
   policy_arn = "arn:aws:iam::aws:policy/job-function/ViewOnlyAccess"
 }
