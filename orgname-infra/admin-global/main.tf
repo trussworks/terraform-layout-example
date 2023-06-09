@@ -38,7 +38,7 @@ module "config" {
 # https://github.com/trussworks/terraform-aws-iam-cross-acct-dest
 module "infra_role" {
   source  = "trussworks/iam-cross-acct-dest/aws"
-  version = "3.1.0"
+  version = "4.0.0"
 
   iam_role_name     = "infra"
   source_account_id = var.account_id_id
