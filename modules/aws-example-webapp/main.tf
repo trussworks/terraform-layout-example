@@ -16,12 +16,6 @@ resource "aws_acm_certificate" "acm_my_webapp" {
   domain_name       = var.domain_name
   validation_method = "DNS"
 
-  tags = {
-    Name        = var.domain_name
-    Environment = var.environment
-    Automation  = "Terraform"
-  }
-
   lifecycle {
     create_before_destroy = true
   }
@@ -171,11 +165,6 @@ resource "aws_ecs_cluster" "app_my_webapp" {
   setting {
     name  = "containerInsights"
     value = "disabled"
-  }
-
-  tags = {
-    Environment = var.environment
-    Automation  = "Terraform"
   }
 
   lifecycle {

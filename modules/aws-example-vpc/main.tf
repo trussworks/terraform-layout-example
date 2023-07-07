@@ -44,12 +44,6 @@ resource "aws_eip" "nat" {
   count = var.single_nat_gateway ? 1 : 2
   vpc   = true
 
-  tags = {
-    Name        = format("nat-%s-%d", var.environment, count.index + 1)
-    Environment = var.environment
-    Automation  = "Terraform"
-  }
-
   lifecycle {
     prevent_destroy = true
   }
@@ -70,11 +64,6 @@ module "vpc" {
   single_nat_gateway = var.single_nat_gateway
   reuse_nat_ips      = true
   external_nat_ips   = aws_eip.nat.*.id
-
-  tags = {
-    Environment = var.environment
-    Automation  = "Terraform"
-  }
 }
 
 # Remove the permissiveness of the default SG that's created by AWS.
@@ -90,10 +79,5 @@ resource "aws_default_security_group" "default" {
     from_port = 3 # Destination Unreachable
     to_port   = 0
     self      = true
-  }
-
-  tags = {
-    Environment = var.environment
-    Automation  = "Terraform"
   }
 }

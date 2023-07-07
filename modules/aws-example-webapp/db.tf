@@ -48,12 +48,6 @@ resource "aws_security_group" "rds_sg" {
   name        = format("rds-my-webapp-%s", var.environment)
   description = format("my-webapp-%s RDS security group", var.environment)
   vpc_id      = var.vpc_id
-
-  tags = {
-    Name        = format("rds-my-webapp-%s", var.environment)
-    Automation  = "Terraform"
-    Environment = var.environment
-  }
 }
 
 resource "aws_security_group_rule" "rds_allow_ecs_app_inbound" {
@@ -158,11 +152,6 @@ module "my_webapp_db" {
   backup_window      = "09:00-12:00"
 
   backup_retention_period = var.db_backup_retention
-
-  tags = {
-    Automation  = "Terraform"
-    Environment = var.environment
-  }
 
   create_db_option_group = false
 

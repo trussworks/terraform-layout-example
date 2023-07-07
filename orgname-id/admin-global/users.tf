@@ -50,30 +50,18 @@ resource "aws_iam_user" "infra_users" {
   for_each      = toset(local.infra_users)
   name          = each.value
   force_destroy = true
-
-  tags = {
-    Automation = "Terraform"
-  }
 }
 
 resource "aws_iam_user" "billing_users" {
   for_each      = toset(local.billing_users)
   name          = each.value
   force_destroy = true
-
-  tags = {
-    Automation = "Terraform"
-  }
 }
 
 resource "aws_iam_user" "engineer_users" {
   for_each      = toset(local.engineer_users)
   name          = each.value
   force_destroy = true
-
-  tags = {
-    Automation = "Terraform"
-  }
 }
 
 # Here we're defining the groups for the users we created above using
