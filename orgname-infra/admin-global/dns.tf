@@ -16,7 +16,7 @@ output "example_com_nameservers" {
 # Add query logging to our zone.
 module "example_com_query_logging" {
   source  = "trussworks/route53-query-logs/aws"
-  version = "~> 3.1.0"
+  version = "~> 4.0.0"
 
   # Route53 is *only* available in us-east-1, so we need to use a special
   # provider for this resource. We also need to define this in providers.tf;

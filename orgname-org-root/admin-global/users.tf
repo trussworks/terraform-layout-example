@@ -2,7 +2,7 @@
 # do pretty much anything except set up MFA.
 module "iam_enforce_mfa" {
   source  = "trussworks/mfa/aws"
-  version = "~> 3.0.0"
+  version = "~> 4.0.0"
 
   iam_groups = ["admins"]
   iam_users  = []
@@ -31,7 +31,7 @@ locals {
 
 module "admins_group" {
   source  = "trussworks/iam-user-group/aws"
-  version = "2.1.0"
+  version = "3.0.0"
 
   user_list     = local.admin_users
   group_name    = "admins"
@@ -112,7 +112,7 @@ resource "aws_iam_policy" "limited_billing_access" {
 # the billing role in this account.
 module "billing_role_access" {
   source  = "trussworks/iam-cross-acct-dest/aws"
-  version = "~> 3.1.0"
+  version = "~> 4.0.0"
 
   iam_role_name     = "billing"
   source_account_id = aws_organizations_account.orgname_id.id

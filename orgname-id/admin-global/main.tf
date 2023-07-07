@@ -8,7 +8,7 @@ data "aws_iam_account_alias" "current" {}
 
 module "logs" {
   source  = "trussworks/logs/aws"
-  version = "~> 14.3.0"
+  version = "~> 16.0.0"
 
   default_allow = false
   allow_config  = true
@@ -23,7 +23,7 @@ module "logs" {
 
 module "config" {
   source  = "trussworks/config/aws"
-  version = "~> 5.0"
+  version = "~> 6.0"
 
   config_name        = format("%s-config-%s", data.aws_iam_account_alias.current.account_alias, var.region)
   config_logs_bucket = module.logs.aws_logs_bucket
