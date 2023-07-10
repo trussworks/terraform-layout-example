@@ -1,10 +1,6 @@
 locals {
   # Use our standard lifecycle policy if none passed in.
   policy = var.lifecycle_policy == "" ? file("${path.module}/lifecycle-policy.json") : var.lifecycle_policy
-
-  tags = {
-    Automation = "Terraform"
-  }
 }
 
 resource "aws_ecr_repository" "main" {
