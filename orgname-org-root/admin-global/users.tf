@@ -31,7 +31,10 @@ module "admins_group" {
 
   user_list     = local.admin_users
   group_name    = "admins"
-  allowed_roles = ["admin", "billing"]
+  allowed_roles = [
+    aws_iam_role.admin.arn,
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/billing"
+  ]
 }
 
 # This is a generic role assumption policy that enforces MFA.
