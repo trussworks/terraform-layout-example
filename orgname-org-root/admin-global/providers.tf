@@ -1,5 +1,4 @@
 provider "aws" {
-  version = "~> 5.0"
   region  = var.region
 
   default_tags {
@@ -7,8 +6,4 @@ provider "aws" {
       Automation : "Terraform"
     }
   }
-}
-
-provider "template" {
-  version = "~> 2.1"
 }
