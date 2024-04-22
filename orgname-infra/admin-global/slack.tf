@@ -163,7 +163,7 @@ module "notify_slack_useast1" {
   }
 
   source  = "terraform-aws-modules/notify-slack/aws"
-  version = "~> 6.2.0"
+  version = "~> 6.3.0"
 
   lambda_function_name = "notify_slack_useast1"
   create_sns_topic     = false
@@ -176,7 +176,7 @@ module "notify_slack_useast1" {
 
 module "notify_slack_uswest2" {
   source  = "terraform-aws-modules/notify-slack/aws"
-  version = "~> 6.2.0"
+  version = "~> 6.3.0"
 
   lambda_function_name = "notify_slack_uswest2"
   create_sns_topic     = false
