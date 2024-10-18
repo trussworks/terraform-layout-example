@@ -51,7 +51,7 @@ resource "aws_eip" "nat" {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 5.13.0"
+  version = "~> 5.14.0"
 
   name = local.vpc_name
   cidr = local.vpc_cidr
