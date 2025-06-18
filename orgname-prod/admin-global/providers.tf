@@ -1,5 +1,5 @@
 provider "aws" {
-  version = "~> 5.0"
+  version = "~> 6.0"
   region  = var.region
 
   default_tags {
@@ -10,7 +10,7 @@ provider "aws" {
 }
 
 provider "aws" {
-  version = "~> 5.0"
+  version = "~> 6.0"
   alias   = "us-east-1"
   region  = "us-east-1"
 
