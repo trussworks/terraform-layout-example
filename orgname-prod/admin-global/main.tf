@@ -6,7 +6,7 @@ data "aws_iam_account_alias" "current" {}
 
 module "logs" {
   source  = "trussworks/logs/aws"
-  version = "~> 17.0.0"
+  version = "~> 18.0.0"
 
   default_allow = false
   allow_config  = true
